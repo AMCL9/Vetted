@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.vetted.R;
 
-
+ori
 public class DetailsFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
