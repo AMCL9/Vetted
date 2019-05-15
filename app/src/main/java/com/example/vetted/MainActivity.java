@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
         getSupportActionBar().hide();
 
-git
+
 
     }
 
@@ -56,6 +56,11 @@ git
                 .replace(R.id.fragment_container, DetailsFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
+
+    }
+
+    @Override
+    public void showMapFragment() {
 
     }
 }
