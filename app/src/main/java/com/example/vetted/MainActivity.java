@@ -22,4 +22,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .commit();
 
     }
+
+    @Override
+    public void showMapFragment() {
+
+    }
 }
