@@ -1,6 +1,8 @@
 package com.example.vetted.FragmentController;
 
 public interface Fragmentinterface {
-    public void showMainFragment ();
-    public void showMapFragment ();
+  void showMainFragment ();
+  void showMapFragment ();
+  void showRecyclerViewFragment ();
+  void showDetailsFragment ();
 }

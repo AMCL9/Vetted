@@ -11,21 +11,18 @@ import android.view.ViewGroup;
 import com.example.vetted.R;
 
 
-public class MapFragment extends Fragment {
-
-
-
+public class RecyclerViewFragment extends Fragment {
 
 
     private OnFragmentInteractionListener mListener;
 
-    public MapFragment() {
+    public RecyclerViewFragment() {
 
     }
 
 
-    public static MapFragment newInstance() {
-        MapFragment fragment = new MapFragment();
+    public static RecyclerViewFragment newInstance() {
+        RecyclerViewFragment fragment = new RecyclerViewFragment();
 
         return fragment;
     }
@@ -41,8 +38,8 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_map, container, false);
+
+        return inflater.inflate(R.layout.fragment_recycler_view, container, false);
     }
 
 
