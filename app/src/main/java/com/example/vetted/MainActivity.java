@@ -59,8 +59,5 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
     }
 
-    @Override
-    public void showMapFragment() {
 
-    }
 }
