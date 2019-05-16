@@ -1,0 +1,20 @@
+package com.example.vetted.network;
+
+import com.example.vetted.modells.BusinessSearch;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
+
+public interface YelpServiceCall {
+
+    String token = "Place API Key Here";
+
+    @Headers({
+            "Authorization:Bearer "  + token})
+    @GET("businesses/search")
+
+    Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("longitude") double longitude, @Query("latitude") double latitude);
+
+}
