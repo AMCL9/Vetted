@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.views.DetailsFragment;
 import com.example.vetted.views.MainFragment;
@@ -19,6 +20,12 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
+
+        ImageView imageView = findViewById(R.id.splash_gif);
+        Glide.with(this)
+                .load(R.drawable.vettedsplash)
+                .placeholder(R.drawable.vettedsplash)
+                .into(imageView);
 
 
 
