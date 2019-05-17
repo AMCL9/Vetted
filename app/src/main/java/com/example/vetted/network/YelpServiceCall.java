@@ -13,7 +13,7 @@ import retrofit2.http.Query;
 
 public interface YelpServiceCall {
 
-    String token = "Place API Key Here";
+    String token = "IHQloLh5ajyyouWR4NzjjK3fS97IjFQF0QlIZGC4asowYBzm4_40X5ojupDPt_vcYbqrDe4moPPn4dYjX_Rkx52FHp75xymZxomu2jcKtuoLfgICNWbeRt-MGfaXHYx";
 
     @Headers({
             "Authorization:Bearer "  + token})

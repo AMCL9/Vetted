@@ -57,7 +57,7 @@
       app:layout_constraintTop_toBottomOf="@id/main_fragment_searchview"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintBottom_toTopOf="go"
+      app:layout_constraintBottom_toTopOf="@id/go"
       android:padding="8dp"
       android:layout_margin="16dp"/>
 
