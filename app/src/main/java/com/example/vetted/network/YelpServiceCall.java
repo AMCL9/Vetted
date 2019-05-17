@@ -1,6 +1,8 @@
 package com.example.vetted.network;
 
+import com.example.vetted.AutoComplete.AutoComplete;
 import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
+import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.modells.BusinessSearch;
 
 import retrofit2.Call;
@@ -21,6 +23,12 @@ public interface YelpServiceCall {
 
     @GET("businesses/{id}")
     Call<BusinessDetailWrapper> getBusinessDetails(@Path("id")String id);
+
+    @GET("autocomplete")
+    Call<AutoComplete> getResults();
+
+    @GET("businesses/{id}/reviews")
+    Call<ReviewWrapper> getReviews();
 
 
 
