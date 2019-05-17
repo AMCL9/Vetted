@@ -9,9 +9,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 
@@ -19,11 +21,7 @@ import com.example.vetted.R;
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     private SearchView searchView;
-    private ToggleButton toggleButton;
-
-
-
-
+    private ImageView imageView;
 
 
     private String mParam1;
@@ -61,7 +59,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         super.onViewCreated(view, savedInstanceState);
         searchView = view.findViewById(R.id.main_fragment_searchview);
         searchView.setOnQueryTextListener(this);
-        toggleButton = view.findViewById(R.id.toggle_button);
+        ToggleButton toggleButton = view.findViewById(R.id.toggle_button);
+        imageView = view.findViewById(R.id.animal_main_view);
+        Glide.with(this)
+                .load(R.drawable.giphy2)
+                .fitCenter()
+                .into(imageView);
     }
 
 

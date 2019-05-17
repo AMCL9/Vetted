@@ -28,6 +28,9 @@ import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements Fragmentinterface {
     private static int SPLASH_TIME_OUT = 4000;
+    int played = 1;
+    ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
+        imageView = findViewById(R.id.splash_gif);
 
 
 
@@ -115,10 +119,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
         @Override
         protected void onPreExecute() {
-            ImageView imageView = findViewById(R.id.splash_gif);
+
           Glide.with(MainActivity.this)
                   .load(R.drawable.lagifgrande)
-                  .placeholder(R.drawable.vettedlogo)
                   .into(imageView);
           count++;
         }
@@ -135,10 +138,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if (count ==1) {
+            if (count == played) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        Glide.with(MainActivity.this)
+                                .load(R.drawable.vettedlogo)
+                                .fitCenter()
+                                .into(imageView);
                         fragmentinterface.showMainFragment();
 
                     }
