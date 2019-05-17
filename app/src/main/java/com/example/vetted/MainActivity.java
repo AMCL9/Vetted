@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
-                Log.d(TAG, "onResponse: " + response.body().getTotal());
+                Log.d(TAG, "onResponse: " + response.body());
 
             }
 
@@ -81,10 +81,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     private void callBusinessDetails() {
-        RetrofitSingleton.getInstance().create(YelpServiceCall.class).getBusinessDetails("id").enqueue(new Callback<BusinessDetailWrapper>() {
+        RetrofitSingleton.getInstance().create(YelpServiceCall.class).getBusinessDetails("WavvLdfdP6g8aZTtbBQHTw").enqueue(new Callback<BusinessDetailWrapper>() {
             @Override
             public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
-                Log.d(TAG, "onResponse: " + response.body().getId());
+                Log.d(TAG, "onResponse: " + response.body());
             }
 
             @Override
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         RetrofitSingleton.getInstance().create(YelpServiceCall.class).getResults().enqueue(new Callback<AutoComplete>() {
             @Override
             public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
-                Log.d(TAG, "onResponse:" +response.body().getTerms().length);
+                Log.d(TAG, "onResponse:" +response.body());
 
             }
 
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         RetrofitSingleton.getInstance().create(YelpServiceCall.class).getReviews().enqueue(new Callback<ReviewWrapper>() {
             @Override
             public void onResponse(Call<ReviewWrapper> call, Response<ReviewWrapper> response) {
-                Log.d(TAG, "onResponse: " +response.body().getPossible_languages().toString());
+                Log.d(TAG, "onResponse: " +response.body());
 
             }
 
