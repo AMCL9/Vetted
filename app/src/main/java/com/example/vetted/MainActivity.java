@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private static int SPLASH_TIME_OUT = 4000;
     int played = 1;
     ImageView imageView;
+    private final String TAG = "BARKBARK";
 
 
     @Override
@@ -65,12 +67,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
+                Log.d(TAG, "onResponse: " + response.body().getTotal());
 
             }
 
 
             @Override
             public void onFailure(Call<BusinessSearch> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
 
             }
         });
@@ -80,11 +84,12 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         RetrofitSingleton.getInstance().create(YelpServiceCall.class).getBusinessDetails("id").enqueue(new Callback<BusinessDetailWrapper>() {
             @Override
             public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
-
+                Log.d(TAG, "onResponse: " + response.body().getId());
             }
 
             @Override
             public void onFailure(Call<BusinessDetailWrapper> call, Throwable t) {
+                Log.d(TAG, "onFailure:" +t.getMessage());
 
             }
         });
@@ -95,11 +100,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         RetrofitSingleton.getInstance().create(YelpServiceCall.class).getResults().enqueue(new Callback<AutoComplete>() {
             @Override
             public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
+                Log.d(TAG, "onResponse:" +response.body().getTerms().length);
 
             }
 
             @Override
             public void onFailure(Call<AutoComplete> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
 
             }
         });
@@ -109,11 +116,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         RetrofitSingleton.getInstance().create(YelpServiceCall.class).getReviews().enqueue(new Callback<ReviewWrapper>() {
             @Override
             public void onResponse(Call<ReviewWrapper> call, Response<ReviewWrapper> response) {
+                Log.d(TAG, "onResponse: " +response.body().getPossible_languages().toString());
 
             }
 
             @Override
             public void onFailure(Call<ReviewWrapper> call, Throwable t) {
+                Log.d(TAG, "onFailure: "+t.getMessage());
 
             }
         });
