@@ -3,26 +3,38 @@ package com.example.vetted.views;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vetted.R;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Objects;
 
 
-public class MapFragment extends Fragment {
-
-
-
-
-
+public class MapFragment extends Fragment implements OnMapReadyCallback {
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+    private double lat;
+    private double lon;
+    SupportMapFragment mapFragment;
     private OnFragmentInteractionListener mListener;
 
-    public MapFragment() {
 
-    }
-
+    public MapFragment() {}
 
     public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
@@ -33,15 +45,19 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
 
+        if (getArguments() != null) {
+            String latParam = getArguments().getString(ARG_PARAM1);
+            String lonParam = getArguments().getString(ARG_PARAM2);
+
+            lat = Double.parseDouble(Objects.requireNonNull(latParam));
+            lon = Double.parseDouble(Objects.requireNonNull(lonParam));
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_map, container, false);
     }
 
@@ -64,14 +80,45 @@ public class MapFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment == null) {
+
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            mapFragment = SupportMapFragment.newInstance();
+            fragmentTransaction.replace(R.id.map, mapFragment).commit();
+            mapFragment = SupportMapFragment.newInstance();
+
+        }
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng coordinate = new LatLng(lat, lon);
+        LatLng getLocation = new LatLng(lat, lon);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
+        CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
+        googleMap.addMarker(new MarkerOptions().position(getLocation).title("Marker"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(getLocation));
+        googleMap.moveCamera(center);
+        googleMap.moveCamera(zoom);
+
+        UiSettings uiSettings = googleMap.getUiSettings();
+        uiSettings.setZoomControlsEnabled(true);
+
+    }
+
 
     public interface OnFragmentInteractionListener {
-
         void onFragmentInteraction(Uri uri);
     }
 }

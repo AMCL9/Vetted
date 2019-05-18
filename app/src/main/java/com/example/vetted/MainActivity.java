@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             task.execute();
         }
 
-
     }
 
     public void getCurrentLocation() {
@@ -88,9 +87,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
-
-                List<Businesses> businessList = businessSearch.getBusinesses();
-
 
             }
 
