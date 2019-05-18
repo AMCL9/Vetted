@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
@@ -59,7 +60,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         super.onViewCreated(view, savedInstanceState);
         searchView = view.findViewById(R.id.main_fragment_searchview);
         searchView.setOnQueryTextListener(this);
-        ToggleButton toggleButton = view.findViewById(R.id.toggle_button);
+        Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
         Glide.with(this)
                 .load(R.drawable.giphy2)
