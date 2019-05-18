@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Switch;
@@ -20,7 +21,7 @@ import com.example.vetted.R;
 
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
-
+    private Button button;
     private SearchView searchView;
     private ImageView imageView;
 
@@ -62,6 +63,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         searchView.setOnQueryTextListener(this);
         Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
+        button = view.findViewById(R.id.go);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         Glide.with(this)
                 .load(R.drawable.giphy2)
                 .fitCenter()
