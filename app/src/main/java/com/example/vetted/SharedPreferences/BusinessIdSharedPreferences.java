@@ -26,6 +26,13 @@ public class BusinessIdSharedPreferences {
 
     }
 
+    public void saveUserLocation (double lat, double lon) {
+        sharedPreferences.edit()
+                .putString(LATITUDE_KEY, Double.toString(lat))
+                .putString(LONGITUDE_KEY, Double.toString(lon))
+                .apply();
+    }
+
     public void saveBusinessText(String text, double lat, double lon) {
         sharedPreferences.edit()
                 .putString(TEXT_KEY, text)
