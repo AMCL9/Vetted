@@ -13,8 +13,7 @@ public class BusinessSearch{
   @SerializedName("businesses")
   @Expose
   private List<Businesses> businesses;
-  public BusinessSearch(){
-  }
+
   public BusinessSearch(Integer total,Region region,List<Businesses> businesses){
    this.total=total;
    this.region=region;
