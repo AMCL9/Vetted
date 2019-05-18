@@ -33,6 +33,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private double latitude;
     private String text;
     private String identifier;
+    List <String> termArray = new ArrayList<>();
+
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
@@ -286,7 +289,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 longitude = lastLocation.getLongitude();
                                 latitude = lastLocation.getLatitude();
                                 businessIdSharedPreferences.saveUserLocation(latitude, longitude);
-                                fragmentinterface.showMapFragment();
+                                fragmentinterface.showMapFragment(latitude, longitude);
+
+
 
 
 
