@@ -36,10 +36,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public MapFragment() {}
 
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(String param1, String param2) {
         MapFragment fragment = new MapFragment();
-
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
         return fragment;
+
     }
 
     @Override
@@ -84,13 +88,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null) {
-
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mapFragment = SupportMapFragment.newInstance();
             fragmentTransaction.replace(R.id.map, mapFragment).commit();
             mapFragment = SupportMapFragment.newInstance();
-
         }
         mapFragment.getMapAsync(this);
     }
