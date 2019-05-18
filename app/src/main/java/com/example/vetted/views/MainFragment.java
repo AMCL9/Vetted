@@ -100,6 +100,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         return false;
     }
 
+    /**
+     * do we amend, hospital or clinic to our search term here?
+     * @param newText
+     * @return
+     */
+
     @Override
     public boolean onQueryTextChange(String newText) {
         return false;

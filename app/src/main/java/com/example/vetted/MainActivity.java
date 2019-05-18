@@ -42,6 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
+
     int played = 1;
     ImageView imageView;
     private SharedPreferences sharedPreferences;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    private String identifier;
+    public static String identity= "";
     List<String> termArray = new ArrayList<>();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -87,15 +88,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
             callBusinessSearch();
-            callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
+            callBusinessDetails(identity);
             callAutoCorrect();
-            callReviews("WavvLdfdP6g8aZTtbBQHTw");
+            callReviews(identity);
 
         }
     }
 
 
-    private void callBusinessSearch() {
+    public void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
         final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("Animal", longitude, latitude);
@@ -108,6 +109,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
+                    for (Businesses b : businessList) {
+
+                        identity = b.getId();
+                    }
                 }
 
 
@@ -285,6 +290,16 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
