@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private double longitude;
     private double latitude;
     public static String identity= "";
+    public static String term = "";
     List<String> termArray = new ArrayList<>();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
-            callBusinessSearch();
+            callBusinessSearch(term, latitude, longitude);
             callBusinessDetails(identity);
             callAutoCorrect();
             callReviews(identity);
@@ -96,10 +97,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
 
-    public void callBusinessSearch() {
+    public void callBusinessSearch(String term, Double longitude, Double latitude) {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("Animal", longitude, latitude);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(term, longitude, latitude);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private void callAutoCorrect() {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
-                .getResults("delis", -73.935242, 40.730610)
+                .getResults("delis", longitude, latitude)
                 .enqueue(new Callback<AutoComplete>() {
                     @Override
                     public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
@@ -197,9 +198,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMainFragment() {
+    public void showMainFragment(Double one, Double two) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MainFragment.newInstance())
+                .replace(R.id.fragment_container, MainFragment.newInstance(one, two))
                 .commit();
 
     }
@@ -271,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 .load(R.drawable.vettedlogo)
                                 .fitCenter()
                                 .into(imageView);
-                        fragmentinterface.showMainFragment();
+                        fragmentinterface.showMainFragment(latitude,longitude);
 
                     }
                 }, SPLASH_TIME_OUT);

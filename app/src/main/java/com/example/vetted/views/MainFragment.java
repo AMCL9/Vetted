@@ -26,8 +26,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private ImageView imageView;
 
 
-    private String mParam1;
-    private String mParam2;
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
     private Fragmentinterface mListener;
 
@@ -36,8 +36,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance( Double one, Double two) {
         MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle ();
+        args.putDouble(LATITUDE, one);
+        args.putDouble(LONGITUDE,two);
         return fragment;
     }
 
