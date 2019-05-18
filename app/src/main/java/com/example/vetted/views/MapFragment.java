@@ -21,22 +21,22 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.Objects;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback{
-    public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "longitude";
+
+public class MapFragment extends Fragment implements OnMapReadyCallback {
+ 
     private double lat;
     private double lon;
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
     SupportMapFragment mapFragment;
-
 
     private OnFragmentInteractionListener mListener;
 
-    public MapFragment() {
 
-    }
-
+    public MapFragment() {}
 
     public static MapFragment newInstance(double lat, double lon) {
         MapFragment fragment = new MapFragment();
@@ -44,9 +44,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         args.putDouble(LATITUDE, lat);
         args.putDouble(LONGITUDE, lon);
         fragment.setArguments(args);
-
+/**
+ * we will probably need to put other things into the bundle as we build other ways to navigate
+ * to the map aside from the main fragment
+ */
         return fragment;
-
     }
 
     @Override
@@ -91,11 +93,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         super.onViewCreated(view, savedInstanceState);
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment == null) {
+
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mapFragment = SupportMapFragment.newInstance();
             fragmentTransaction.replace(R.id.map, mapFragment).commit();
             mapFragment = SupportMapFragment.newInstance();
+
         }
         mapFragment.getMapAsync(this);
     }
