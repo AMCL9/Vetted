@@ -1,52 +1,33 @@
 package com.example.vetted.AutoComplete;
 
-import com.example.vetted.modells.Businesses;
-
 public class AutoComplete {
-
-    public AutoComplete() {
-    }
 
     private Terms[] terms;
 
     private Categories[] categories;
 
-    private Businesses[] businesses;
+    private BusinessesSimple[] businesses;
 
-    public Terms[] getTerms ()
-    {
-        return terms;
-    }
-
-    public void setTerms (Terms[] terms)
-    {
+    public AutoComplete(Terms[] terms, Categories[] categories, BusinessesSimple[] businesses) {
         this.terms = terms;
-    }
-
-    public Categories[] getCategories ()
-    {
-        return categories;
-    }
-
-    public void setCategories (Categories[] categories)
-    {
         this.categories = categories;
-    }
-
-    public Businesses[] getBusinesses ()
-    {
-        return businesses;
-    }
-
-    public void setBusinesses (Businesses[] businesses)
-    {
         this.businesses = businesses;
     }
 
+    public Terms[] getTerms() {
+        return terms;
+    }
+
+    public Categories[] getCategories() {
+        return categories;
+    }
+
+    public BusinessesSimple[] getBusinesses() {
+        return businesses;
+    }
+
     @Override
-    public String toString()
-    {
-        return "ClassPojo [terms = "+terms+", categories = "+categories+", businesses = "+businesses+"]";
+    public String toString() {
+        return "ClassPojo [terms = " + terms + ", categories = " + categories + ", businesses = " + businesses + "]";
     }
 }
-
