@@ -1,7 +1,12 @@
 package com.example.vetted;
 
+import android.Manifest;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +18,7 @@ import com.example.vetted.AutoComplete.AutoComplete;
 import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
 import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.FragmentController.Fragmentinterface;
+import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.network.RetrofitSingleton;
@@ -29,21 +35,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements Fragmentinterface {
-    private static int SPLASH_TIME_OUT = 4000;
+public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
     int played = 1;
     ImageView imageView;
+    private SharedPreferences sharedPreferences;
+    private BusinessIdSharedPreferences businessIdSharedPreferences;
     private final String TAG = "BARKBARK";
+    public static final int PERMISSIONS_REQUEST_LOCATION = 99;
+    private static int SPLASH_TIME_OUT = 4000;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
+        businessIdSharedPreferences = new BusinessIdSharedPreferences(sharedPreferences);
 
         getSupportActionBar().hide();
         imageView = findViewById(R.id.splash_gif);
-
+        getCurrentLocation();
 
         if (savedInstanceState == null) {
             AsyncTask<Void, Void, Void> task = new LoadingTask(this);
@@ -51,10 +62,20 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         }
 
 
-        callBusinessSearch();
-        callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
-        callAutoCorrect();
-        callReviews("WavvLdfdP6g8aZTtbBQHTw");
+    }
+
+    public void getCurrentLocation() {
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+        } else {
+            callBusinessSearch();
+            callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
+            callAutoCorrect();
+            callReviews("WavvLdfdP6g8aZTtbBQHTw");
+
+        }
     }
 
 
@@ -85,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     /**
      * Need to pass in business ID from Business Search. Each business has a unique identifier.
      * Example: WavvLdfdP6g8aZTtbBQHTw
+     *
      * @param businessId
      */
     private void callBusinessDetails(String businessId) {
@@ -111,23 +133,24 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .create(YelpServiceCall.class)
                 .getResults("delis", -73.935242, 40.730610)
                 .enqueue(new Callback<AutoComplete>() {
-            @Override
-            public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
-                Log.d(TAG, "Autocorrect onResponse:" + response.body());
+                    @Override
+                    public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
+                        Log.d(TAG, "Autocorrect onResponse:" + response.body());
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<AutoComplete> call, Throwable t) {
-                Log.d(TAG, "Autocorrect onFailure: " + t.getMessage());
+                    @Override
+                    public void onFailure(Call<AutoComplete> call, Throwable t) {
+                        Log.d(TAG, "Autocorrect onFailure: " + t.getMessage());
 
-            }
-        });
+                    }
+                });
     }
 
     /**
      * Requires business identifier. Gotten from Business Search
      * Example: WavvLdfdP6g8aZTtbBQHTw
+     *
      * @param businessId
      */
     private void callReviews(String businessId) {
@@ -135,18 +158,18 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .create(YelpServiceCall.class)
                 .getReviews(businessId)
                 .enqueue(new Callback<ReviewWrapper>() {
-            @Override
-            public void onResponse(Call<ReviewWrapper> call, Response<ReviewWrapper> response) {
-                Log.d(TAG, "Reviews onResponse: " + response.body());
+                    @Override
+                    public void onResponse(Call<ReviewWrapper> call, Response<ReviewWrapper> response) {
+                        Log.d(TAG, "Reviews onResponse: " + response.body());
 
-            }
+                    }
 
-            @Override
-            public void onFailure(Call<ReviewWrapper> call, Throwable t) {
-                Log.d(TAG, "Reviews onFailure: " + t.getMessage());
+                    @Override
+                    public void onFailure(Call<ReviewWrapper> call, Throwable t) {
+                        Log.d(TAG, "Reviews onFailure: " + t.getMessage());
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -234,5 +257,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         }
     }
 
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }
