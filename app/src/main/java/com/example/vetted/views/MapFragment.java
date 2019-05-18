@@ -28,7 +28,7 @@ public class MapFragment extends Fragment {
 
     public static MapFragment newInstance(double lat, double lon) {
         MapFragment fragment = new MapFragment();
-        Bundle args = new Bundle;
+        Bundle args = new Bundle();
         args.putDouble(LATITUDE, lat);
         args.putDouble(LONGITUDE, lon);
         fragment.setArguments(args);
