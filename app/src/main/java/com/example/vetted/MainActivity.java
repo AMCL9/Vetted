@@ -49,9 +49,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    private String text;
     private String identifier;
     List<String> termArray = new ArrayList<>();
+    /**
+     * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
+     */
 
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
@@ -96,14 +98,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("delis", -73.935242, 40.730610);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("Animal", longitude, latitude);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
 
-                List<Businesses> businessList = businessSearch.getBusinesses();
+
+                if (businessSearch != null) {
+                    List<Businesses> businessList = businessSearch.getBusinesses();
+                }
 
 
             }
@@ -291,9 +296,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 fragmentinterface.showMapFragment(latitude, longitude);
 
 
+                            } else {
+                                Toast.makeText(MainActivity.this, "No Location Shown", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+                    Toast.makeText(this,"You need to grant access to your location for this app to run",Toast.LENGTH_LONG).show();
                 }
         }
     }
