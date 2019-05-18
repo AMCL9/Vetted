@@ -21,27 +21,30 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.Objects;
 
-
-public class MapFragment extends Fragment implements OnMapReadyCallback {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class MapFragment extends Fragment implements OnMapReadyCallback{
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
     private double lat;
     private double lon;
     SupportMapFragment mapFragment;
+
+
     private OnFragmentInteractionListener mListener;
 
+    public MapFragment() {
 
-    public MapFragment() {}
+    }
 
-    public static MapFragment newInstance(String param1, String param2) {
+
+    public static MapFragment newInstance(double lat, double lon) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putDouble(LATITUDE, lat);
+        args.putDouble(LONGITUDE, lon);
         fragment.setArguments(args);
+
         return fragment;
 
     }
@@ -51,8 +54,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            String latParam = getArguments().getString(ARG_PARAM1);
-            String lonParam = getArguments().getString(ARG_PARAM2);
+            String latParam = getArguments().getString(LATITUDE);
+            String lonParam = getArguments().getString(LONGITUDE);
 
             lat = Double.parseDouble(Objects.requireNonNull(latParam));
             lon = Double.parseDouble(Objects.requireNonNull(lonParam));
