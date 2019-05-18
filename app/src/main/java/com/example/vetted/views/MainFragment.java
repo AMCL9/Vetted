@@ -26,8 +26,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private ImageView imageView;
 
 
-    private String mParam1;
-    private String mParam2;
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
     private Fragmentinterface mListener;
 
@@ -38,6 +38,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle ();
         return fragment;
     }
 
@@ -99,6 +100,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
+
+    /**
+     * do we amend, hospital or clinic to our search term here?
+     * @param newText
+     * @return
+     */
 
     @Override
     public boolean onQueryTextChange(String newText) {
