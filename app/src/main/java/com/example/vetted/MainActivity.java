@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             task.execute();
         }
 
-
     }
 
     public void getCurrentLocation() {
@@ -108,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 BusinessSearch businessSearch = response.body();
 
 
+
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         identity = b.getId();
                     }
                 }
+
 
 
             }
