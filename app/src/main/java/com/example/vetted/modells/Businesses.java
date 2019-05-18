@@ -3,16 +3,16 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class Businesses{
+public class Businesses {
   @SerializedName("distance")
   @Expose
-  private Integer distance;
+  private Double distance;
   @SerializedName("image_url")
   @Expose
   private String image_url;
   @SerializedName("rating")
   @Expose
-  private Integer rating;
+  private Double rating;
   @SerializedName("coordinates")
   @Expose
   private Coordinates coordinates;
@@ -49,13 +49,15 @@ public class Businesses{
   @SerializedName("is_closed")
   @Expose
   private Boolean is_closed;
+
+
   public Businesses(){
   }
 
-  public void setDistance(Integer distance){
+  public void setDistance(Double distance){
    this.distance=distance;
   }
-  public Integer getDistance(){
+  public Double getDistance(){
    return distance;
   }
   public void setImage_url(String image_url){
@@ -64,10 +66,10 @@ public class Businesses{
   public String getImage_url(){
    return image_url;
   }
-  public void setRating(Integer rating){
+  public void setRating(Double rating){
    this.rating=rating;
   }
-  public Integer getRating(){
+  public Double getRating(){
    return rating;
   }
   public void setCoordinates(Coordinates coordinates){

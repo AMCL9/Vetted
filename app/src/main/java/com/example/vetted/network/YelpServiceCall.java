@@ -13,23 +13,22 @@ import retrofit2.http.Query;
 
 public interface YelpServiceCall {
 
-    String token = "IHQloLh5ajyyouWR4NzjjK3fS97IjFQF0QlIZGC4asowYBzm4_40X5ojupDPt_vcYbqrDe4moPPn4dYjX_Rkx52FHp75xymZxomu2jcKtuoLfgICNWbeRt-MGfaXHYx";
+    String token = "mURs8GtRFKdJsKDEuHnqrMxN33vUVSPhMiMggCxYh_4brYNeh6sc9JRbPhQzkkxgoAjnhGvrP3f_Rz6pE1aczFb3_b2ydDR0tABH9tMFhWJxZUhqw3TeHt4Th1LbXHYx";
 
-    @Headers({
-            "Authorization:Bearer "  + token})
+    @Headers({"Authorization:Bearer " + token})
     @GET("businesses/search")
-
     Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("longitude") double longitude, @Query("latitude") double latitude);
 
+    @Headers({"Authorization:Bearer " + token})
     @GET("businesses/{id}")
-    Call<BusinessDetailWrapper> getBusinessDetails(@Path("id")String id);
+    Call<BusinessDetailWrapper> getBusinessDetails(@Path("id") String id);
 
+    @Headers({"Authorization:Bearer " + token})
     @GET("autocomplete")
-    Call<AutoComplete> getResults();
+    Call<AutoComplete> getResults(@Query("text") String text, @Query("longitude") double longitude, @Query("latitude") double latitude);
 
+    @Headers({"Authorization:Bearer " + token})
     @GET("businesses/{id}/reviews")
-    Call<ReviewWrapper> getReviews();
-
-
+    Call<ReviewWrapper> getReviews(@Path("id") String id);
 
 }

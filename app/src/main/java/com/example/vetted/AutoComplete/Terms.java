@@ -1,20 +1,15 @@
 package com.example.vetted.AutoComplete;
 
 public class Terms {
-    public Terms() {
-
-    }
-
     private String text;
+
+    public Terms(String text) {
+        this.text = text;
+    }
 
     public String getText ()
     {
         return text;
-    }
-
-    public void setText (String text)
-    {
-        this.text = text;
     }
 
     @Override
