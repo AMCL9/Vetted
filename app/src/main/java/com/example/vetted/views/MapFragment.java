@@ -12,6 +12,8 @@ import com.example.vetted.R;
 
 
 public class MapFragment extends Fragment {
+    public static final String LATITUDE = "latitude";
+    public static final String LONGITUDE = "longitude";
 
 
 
@@ -24,9 +26,16 @@ public class MapFragment extends Fragment {
     }
 
 
-    public static MapFragment newInstance() {
+    public static MapFragment newInstance(double lat, double lon) {
         MapFragment fragment = new MapFragment();
-
+        Bundle args = new Bundle;
+        args.putDouble(LATITUDE, lat);
+        args.putDouble(LONGITUDE, lon);
+        fragment.setArguments(args);
+/**
+ * we will probably need to put other things into the bundle as we build other ways to navigate
+ * to the map aside from the main fragment
+ */
         return fragment;
     }
 

@@ -3,6 +3,7 @@ package com.example.vetted;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -27,6 +29,9 @@ import com.example.vetted.views.DetailsFragment;
 import com.example.vetted.views.MainFragment;
 import com.example.vetted.views.MapFragment;
 import com.example.vetted.views.RecyclerViewFragment;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.List;
 
@@ -40,12 +45,18 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     ImageView imageView;
     private SharedPreferences sharedPreferences;
     private BusinessIdSharedPreferences businessIdSharedPreferences;
+    private Location lastLocation;
+    private double longitude;
+    private double latitude;
+    private String text;
+    private String identifier;
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
+    Fragmentinterface fragmentinterface;
 
 
-    @Override
+    @Override.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -260,5 +271,28 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch(requestCode) {
+            case PERMISSIONS_REQUEST_LOCATION:
+                if((grantResults.length> 0) && grantResults [0] ==
+                        PackageManager.PERMISSION_GRANTED)
+                {
+                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                    final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
+                    fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                lastLocation = location;
+                                longitude = lastLocation.getLongitude();
+                                latitude = lastLocation.getLatitude();
+                                businessIdSharedPreferences.saveUserLocation(latitude, longitude);
+                                fragmentinterface.showMapFragment();
+
+
+
+                            }
+                        }
+                    })
+                }
     }
 }
