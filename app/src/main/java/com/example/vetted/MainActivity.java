@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private double latitude;
     private String text;
     private String identifier;
-    List <String> termArray = new ArrayList<>();
+    List<String> termArray = new ArrayList<>();
 
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     Fragmentinterface fragmentinterface;
 
 
-    @Override.
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -195,9 +195,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMapFragment() {
+    public void showMapFragment(Double one, Double two) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance())
+                .replace(R.id.fragment_container, MapFragment.newInstance(one, two))
                 .addToBackStack(null)
                 .commit();
 
@@ -274,11 +274,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode) {
+        switch (requestCode) {
             case PERMISSIONS_REQUEST_LOCATION:
-                if((grantResults.length> 0) && grantResults [0] ==
-                        PackageManager.PERMISSION_GRANTED)
-                {
+                if ((grantResults.length > 0) && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
                     fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -292,12 +291,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 fragmentinterface.showMapFragment(latitude, longitude);
 
 
-
-
-
                             }
                         }
-                    })
+                    });
                 }
+        }
     }
 }
