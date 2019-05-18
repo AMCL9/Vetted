@@ -36,11 +36,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance( Double one, Double two) {
+    public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle ();
-        args.putDouble(LATITUDE, one);
-        args.putDouble(LONGITUDE,two);
         return fragment;
     }
 
