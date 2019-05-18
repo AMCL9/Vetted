@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     for (Businesses b : businessList) {
 
                         identity = b.getId();
+
+                        businessIdSharedPreferences.saveBusinessID(b.getId(), latitude, longitude);
                     }
                 }
 
