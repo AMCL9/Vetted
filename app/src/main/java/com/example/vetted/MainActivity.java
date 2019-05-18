@@ -33,6 +33,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -41,6 +42,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
+
     int played = 1;
     ImageView imageView;
     private SharedPreferences sharedPreferences;
@@ -48,15 +50,19 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    private String text;
-    private String identifier;
+    public static String identity= "";
+    List<String> termArray = new ArrayList<>();
+    /**
+     * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
+     */
+
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
     Fragmentinterface fragmentinterface;
 
 
-    @Override.
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -71,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             AsyncTask<Void, Void, Void> task = new LoadingTask(this);
             task.execute();
         }
+
 
     }
 
@@ -89,15 +96,25 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
 
-    private void callBusinessSearch() {
+    public void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("delis", -73.935242, 40.730610);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("delis", longitude, latitude);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
+
+
+
+                if (businessSearch != null) {
+                    List<Businesses> businessList = businessSearch.getBusinesses();
+                    for (Businesses b : businessList) {
+
+                        identity = b.getId();
+                    }
+                }
 
             }
 
@@ -188,9 +205,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMapFragment() {
+    public void showMapFragment(Double one, Double two) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance())
+                .replace(R.id.fragment_container, MapFragment.newInstance(one, two))
                 .addToBackStack(null)
                 .commit();
 
@@ -267,13 +284,22 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode) {
+        switch (requestCode) {
             case PERMISSIONS_REQUEST_LOCATION:
-                if((grantResults.length> 0) && grantResults [0] ==
-                        PackageManager.PERMISSION_GRANTED)
-                {
+                if ((grantResults.length > 0) && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
@@ -282,13 +308,19 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 longitude = lastLocation.getLongitude();
                                 latitude = lastLocation.getLatitude();
                                 businessIdSharedPreferences.saveUserLocation(latitude, longitude);
-                                fragmentinterface.showMapFragment();
+                                fragmentinterface.showMapFragment(latitude, longitude);
 
 
-
+                            } else {
+                                Toast.makeText(MainActivity.this, "No Location Shown", Toast.LENGTH_SHORT).show();
                             }
                         }
-                    })
+                    });
+                } else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+                    Toast.makeText(this,"You need to grant access to your location for this app to run",Toast.LENGTH_LONG).show();
                 }
+        }
     }
 }
