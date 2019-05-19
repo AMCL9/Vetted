@@ -132,4 +132,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
 }
