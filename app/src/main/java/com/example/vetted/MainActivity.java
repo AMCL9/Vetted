@@ -245,9 +245,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showRecyclerViewFragment() {
+    public void showRecyclerViewFragment(List<Businesses> businessesList) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, RecyclerViewFragment.newInstance())
+                .replace(R.id.fragment_container, RecyclerViewFragment.newInstance(businessesList))
                 .addToBackStack(null)
                 .commit();
 
