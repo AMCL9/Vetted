@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    public static String identity= "";
+    public static String identity = "";
     List<String> termArray = new ArrayList<>();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -107,15 +107,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 BusinessSearch businessSearch = response.body();
 
 
-
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
-                        List <Businesses> termRelateBusinesses = new ArrayList<>();
+                        List<Businesses> termRelateBusinesses = new ArrayList<>();
                         identity = b.getId();
                         businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
                         termRelateBusinesses.add(b);
-                        Log.d(TAG, "onResponse: "+termRelateBusinesses.get(0).toString());
+                        Log.d(TAG, "onResponse: " + termRelateBusinesses.get(0).toString());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
                          * calls
@@ -150,18 +149,21 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         Log.d(TAG, "Business Detais onResponse: " + response.body());
                         BusinessDetailWrapper businessDetailWrapper = response.body();
                         if (businessDetailWrapper != null) {
-                            businessDetailWrapper.getName();
-                            businessDetailWrapper.getUrl();
-                            businessDetailWrapper.getAlias();
-                            businessDetailWrapper.getId();
-                            businessDetailWrapper.getCoordinates();
-                            businessDetailWrapper.getCategories();
-                            businessDetailWrapper.getIs_closed();
-                            businessDetailWrapper.getDisplay_phone();
-                            businessDetailWrapper.getHours();
-                            businessDetailWrapper.getImage_url();
-                            businessDetailWrapper.getRating();
-                            businessDetailWrapper.getPrice();
+                            businessIdSharedPreferences.saveBusinessDetails(
+                                    businessDetailWrapper.getName(),
+                                    businessDetailWrapper.getUrl(),
+                                    businessDetailWrapper.getAlias(),
+                                    businessDetailWrapper.getId(),
+                                    businessDetailWrapper.getCoordinates(),
+                                    businessDetailWrapper.getCategories(),
+                                    businessDetailWrapper.getIs_closed(),
+                                    businessDetailWrapper.getHours(),
+                                    businessDetailWrapper.getRating(),
+
+                                    businessDetailWrapper.getImage_url(),
+                                    businessDetailWrapper.getRating(),
+                                    businessDetailWrapper.getPrice());
+//
                         }
                     }
 
@@ -340,8 +342,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     });
                 } else {
                     ActivityCompat.requestPermissions(this,
-                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
-                    Toast.makeText(this,"You need to grant access to your location for this app to run",Toast.LENGTH_LONG).show();
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+                    Toast.makeText(this, "You need to grant access to your location for this app to run", Toast.LENGTH_LONG).show();
                 }
         }
     }

@@ -8,15 +8,19 @@ public class Coordinates {
 
     public Coordinates() {
 
+
     }
 
     private String latitude;
 
     private String longitude;
 
-    private Set <String> latAndLong = new HashSet<>();
-
-
+    public Set<String> getLatAndLong() {
+        Set <String> latAndLong = new HashSet<>();
+        latAndLong.add(getLatitude());
+        latAndLong.add(getLongitude());
+        return latAndLong;
+    }
 
     public String getLatitude() {
         return latitude;

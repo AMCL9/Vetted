@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import com.example.vetted.BusinessDetailsModels.Hours;
 import com.example.vetted.modells.Categories;
 import com.example.vetted.modells.Coordinates;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class BusinessIdSharedPreferences {
     public static final String SHARED_PREF_KEY = "Shared Preferences Key";
@@ -37,20 +41,6 @@ public class BusinessIdSharedPreferences {
                 .apply();
     }
 
-    public void saveBusinessDetails(String name, String url, String alias,
-                                    String identifier, Coordinates coordinates,
-                                    Categories categories, Boolean isClosed, Hours [] hours,
-                                    String image_url, String rating, String price) {
-        sharedPreferences.edit()
-                .putString("name", name)
-                .putString("url", url)
-                .putString("alias", alias)
-                .putString("identifier", identifier)
-                .putString(
-                .putString()
-
-                //HashSet<String> set=new HashSet();
-    }
 
     public void saveBusinessText(String text, double lat, double lon) {
         sharedPreferences.edit()
@@ -59,5 +49,26 @@ public class BusinessIdSharedPreferences {
                 .putString(LONGITUDE_KEY, Double.toString(lon))
                 .apply();
     }
+
+    public void saveBusinessDetails(String name, String url, String alias, String id, Coordinates coordinates, Categories[] categories, boolean is_closed, Hours[] hours, String rating, String image_url, String rating1, String price) {
+        sharedPreferences.edit()
+                .putString("name", name)
+                .putString("url", url)
+                .putString("alias", alias)
+                .putString("identifier", id)
+                .putString(LATITUDE_KEY, String.valueOf(coordinates.getLatitude()))
+                .putString(LONGITUDE_KEY, String.valueOf(coordinates.getLongitude()))
+                .putString("title", categories[0].getTitle())
+                .putBoolean("closed", is_closed)
+                .putString("hour open", hours[0].getOpen()[0].getStart())
+                .putString("hour closed", hours[0].getOpen()[0].getEnd())
+                .putString("day", hours[0].getOpen()[0].getDay())
+//                .putString("imageurl", image_url)
+                .putString("rating", rating)
+                .putString("price", price);
+
+        /**
+         *HashSet<String> set=new HashSet();
+         **/}
 }
 
