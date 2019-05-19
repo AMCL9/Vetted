@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".views.MainFragment"
-    android:background="@color/colorWhite">
+    android:background="@drawable/anthonyhopkinscat">
 
     <TextView
         android:id="@+id/main_text"
@@ -17,6 +17,7 @@
         android:textSize="32sp"
         android:fontFamily="cursive"
         android:textStyle="bold"
+        android:textColor="@color/colorWhite"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -44,6 +45,7 @@
         android:textSize="32sp"
         android:fontFamily="cursive"
         android:textStyle="bold"
+        android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/main_fragment_searchview"
@@ -58,6 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:background="@color/colorGray"
         android:layout_margin="16dp">
 
     </SearchView>
@@ -66,6 +69,7 @@
 
       android:id="@+id/switch1"
       android:text="@string/open_now"
+      android:textColor="@color/colorWhite"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       app:layout_constraintTop_toBottomOf="@id/main_fragment_searchview"
@@ -78,6 +82,7 @@
     <Button
         android:id="@+id/go"
         android:text="@string/find"
+        android:textColor="@color/colorWhite"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorGreenMain"
