@@ -2,7 +2,10 @@ package com.example.vetted.BusinessDetailsModels;
 
 public class Hours {
 
-    public Hours() {
+    public Hours(boolean is_open_now, String hours_type, Open [] open) {
+        this.is_open_now = is_open_now;
+        this.hours_type = hours_type;
+        this.open = open;
     }
 
     private boolean is_open_now;

@@ -1,15 +1,26 @@
 package com.example.vetted.BusinessDetailsModels;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Coordinates {
 
     public Coordinates() {
+
 
     }
 
     private String latitude;
 
     private String longitude;
+
+    public Set<String> getLatAndLong() {
+        Set <String> latAndLong = new HashSet<>();
+        latAndLong.add(getLatitude());
+        latAndLong.add(getLongitude());
+        return latAndLong;
+    }
 
     public String getLatitude() {
         return latitude;
