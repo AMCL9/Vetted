@@ -23,6 +23,7 @@ import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
+import com.example.vetted.modells.Coordinates;
 import com.example.vetted.network.RetrofitSingleton;
 import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
@@ -34,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public static String identity = "";
     private static String userInput = "";
     List<String> termArray = new ArrayList<>();
+    Coordinates coordinates;
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
      */
@@ -106,9 +109,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
-
+                HashMap<Double,Double> doubleDoubleHashMap = new HashMap<>();
 
                 if (businessSearch != null) {
+
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         List<Businesses> termRelateBusinesses = new ArrayList<>();
