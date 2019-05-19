@@ -34,7 +34,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,9 +114,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         List<Businesses> termRelateBusinesses = new ArrayList<>();
+                        Set <Businesses> termResults = new HashSet<>();
                         identity = b.getId();
                         businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
                         termRelateBusinesses.add(b);
+                        termResults.add(b);
+                        businessIdSharedPreferences.saveBusinessList(termResults);
+
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
