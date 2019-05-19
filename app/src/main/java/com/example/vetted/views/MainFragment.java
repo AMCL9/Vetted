@@ -1,7 +1,6 @@
 package com.example.vetted.views;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Switch;
-import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
@@ -22,7 +20,7 @@ import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
-    private Button button;
+    private Button mapFragmentButton;
     private SearchView searchView;
     private ImageView imageView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
@@ -66,11 +64,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         searchView.setOnQueryTextListener(this);
         Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
-        button = view.findViewById(R.id.go);
-        button.setOnClickListener(new View.OnClickListener() {
+        mapFragmentButton = view.findViewById(R.id.go);
+        mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//            mListener.showMapFragment(,LONGITUDE);
             }
         });
         Glide.with(this)

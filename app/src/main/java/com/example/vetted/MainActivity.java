@@ -24,6 +24,7 @@ import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.controller.RecyclerViewViewholder;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
+import com.example.vetted.modells.Coordinates;
 import com.example.vetted.network.RetrofitSingleton;
 import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private static String userInput = "";
     public static List<Businesses> termRelateBusinesses;
     List<String> termArray = new ArrayList<>();
+    Coordinates coordinates;
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
      */
