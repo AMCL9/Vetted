@@ -16,6 +16,7 @@ public class BusinessIdSharedPreferences {
     public static final String TEXT_KEY = "text";
     public static final String LATITUDE_KEY = "latitude";
     public static final String LONGITUDE_KEY = "longitude";
+    public static final String USER_INPUT = "userinput";
 
     private SharedPreferences sharedPreferences;
 
@@ -69,6 +70,17 @@ public class BusinessIdSharedPreferences {
 
         /**
          *HashSet<String> set=new HashSet();
-         **/}
+         **/
+    }
+
+    public void saveUserInput(String input) {
+        sharedPreferences.edit()
+                .putString(USER_INPUT, input);
+    }
+
 }
+
+
+
+
 

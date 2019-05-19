@@ -18,12 +18,14 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
+import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
     private Button button;
     private SearchView searchView;
     private ImageView imageView;
+    BusinessIdSharedPreferences businessIdSharedPreferences;
 
 
     public static final String LATITUDE = "latitude";
@@ -98,6 +100,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        businessIdSharedPreferences.saveUserInput(query);
         return false;
     }
 
