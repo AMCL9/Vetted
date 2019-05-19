@@ -50,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    public static String identity= "";
+    public static String identity = "";
+    private static String userInput = "";
     List<String> termArray = new ArrayList<>();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("delis", longitude, latitude);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(getUserInput(), longitude, latitude);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
@@ -107,12 +108,18 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 BusinessSearch businessSearch = response.body();
 
 
-
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
-
+                        List<Businesses> termRelateBusinesses = new ArrayList<>();
                         identity = b.getId();
+                        businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
+                        termRelateBusinesses.add(b);
+                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
+                        /**
+                         * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
+                         * calls
+                         */
                     }
                 }
 
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
      *
      * @param businessId
      */
-    private void callBusinessDetails(String businessId) {
+    private void callBusinessDetails(final String businessId) {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
                 .getBusinessDetails(businessId)
@@ -141,6 +148,24 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     @Override
                     public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
                         Log.d(TAG, "Business Detais onResponse: " + response.body());
+                        BusinessDetailWrapper businessDetailWrapper = response.body();
+                        if (businessDetailWrapper != null) {
+                            businessIdSharedPreferences.saveBusinessDetails(
+                                    businessDetailWrapper.getName(),
+                                    businessDetailWrapper.getUrl(),
+                                    businessDetailWrapper.getAlias(),
+                                    businessDetailWrapper.getId(),
+                                    businessDetailWrapper.getCoordinates(),
+                                    businessDetailWrapper.getCategories(),
+                                    businessDetailWrapper.getIs_closed(),
+                                    businessDetailWrapper.getHours(),
+                                    businessDetailWrapper.getRating(),
+
+                                    businessDetailWrapper.getImage_url(),
+                                    businessDetailWrapper.getRating(),
+                                    businessDetailWrapper.getPrice());
+//
+                        }
                     }
 
                     @Override
@@ -318,9 +343,19 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     });
                 } else {
                     ActivityCompat.requestPermissions(this,
-                            new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
-                    Toast.makeText(this,"You need to grant access to your location for this app to run",Toast.LENGTH_LONG).show();
+                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
+                    Toast.makeText(this, "You need to grant access to your location for this app to run", Toast.LENGTH_LONG).show();
                 }
         }
     }
+
+   private String getUserInput () {
+       sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
+       if (sharedPreferences != null) {
+           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, "");
+
+
+       }
+       return userInput;
+   }
 }
