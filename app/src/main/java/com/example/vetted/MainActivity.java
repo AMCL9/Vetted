@@ -109,10 +109,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
-                HashMap<Double,Double> doubleDoubleHashMap = new HashMap<>();
+                HashMap<Double,Double> doubleDoubleHashMap;
+                doubleDoubleHashMap = new HashMap<>();
+                doubleDoubleHashMap.put(coordinates.getLatitude(),coordinates.getLongitude());
 
                 if (businessSearch != null) {
-
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         List<Businesses> termRelateBusinesses = new ArrayList<>();
