@@ -22,7 +22,6 @@ import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.BusinessSearch;
-import com.example.vetted.modells.Businesses;
 import com.example.vetted.network.RetrofitSingleton;
 import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     Fragmentinterface fragmentinterface;
 
 
-    @Override.
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -190,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void showMapFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance())
+                .replace(R.id.fragment_container, MapFragment.newInstance(latitude, longitude))
                 .addToBackStack(null)
                 .commit();
 
@@ -267,13 +266,22 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode) {
+        switch (requestCode) {
             case PERMISSIONS_REQUEST_LOCATION:
-                if((grantResults.length> 0) && grantResults [0] ==
-                        PackageManager.PERMISSION_GRANTED)
-                {
+                if ((grantResults.length > 0) && grantResults[0] ==
+                        PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
                     fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
@@ -285,10 +293,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 fragmentinterface.showMapFragment();
 
 
-
                             }
                         }
-                    })
+                    });
                 }
+        }
     }
 }
