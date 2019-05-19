@@ -131,5 +131,4 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         void onFragmentInteraction(Uri uri);
     }
 
-    private String get
 }
