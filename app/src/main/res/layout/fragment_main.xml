@@ -9,6 +9,7 @@
     android:background="@drawable/anthonyhopkinscat">
 
     <TextView
+        android:padding="8dp"
         android:id="@+id/main_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
