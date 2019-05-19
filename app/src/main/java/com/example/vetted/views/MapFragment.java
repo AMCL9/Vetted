@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.vetted.R;
+import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,7 +33,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static final String LATITUDE = "latitude";
     public static final String LONGITUDE = "longitude";
     SupportMapFragment mapFragment;
-
+    private BusinessIdSharedPreferences businessIdSharedPreferences;
     private OnFragmentInteractionListener mListener;
 
 
@@ -95,6 +96,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (mapFragment == null) {
 
             FragmentManager fragmentManager = getFragmentManager();
+            assert fragmentManager != null;
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             mapFragment = SupportMapFragment.newInstance();
             fragmentTransaction.replace(R.id.map, mapFragment).commit();
