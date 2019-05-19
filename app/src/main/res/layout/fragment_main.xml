@@ -13,28 +13,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/main_frag_text_1"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="32sp"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/animal_main_view"/>
+        app:layout_constraintBottom_toTopOf="@id/animal_main_view"
+        android:gravity="center"/>
+
     <ImageView
         android:id="@+id/animal_main_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/animal_main_view"
+        android:layout_width="427dp"
+        android:layout_height="175dp"
+        android:foregroundGravity="center"
         app:layout_constraintBottom_toBottomOf="@id/main_text_2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/animal_main_view" />
 
     <TextView
         android:id="@+id/main_text_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/main_frag_text_2"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+        android:textSize="32sp"
+        android:fontFamily="cursive"
+        android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/main_fragment_searchview"
         app:layout_constraintTop_toBottomOf="@id/animal_main_view"/>
+
     <SearchView
         app:layout_constraintTop_toBottomOf="@id/main_text_2"
         app:layout_constraintBottom_toTopOf="@id/switch1"
@@ -63,8 +77,10 @@
 
     <Button
         android:id="@+id/go"
+        android:text="@string/find"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorGreenMain"
         app:layout_constraintTop_toBottomOf="@id/switch1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
