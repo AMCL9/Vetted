@@ -111,10 +111,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
-
+                        List <Businesses> termRelateBusinesses = new ArrayList<>();
                         identity = b.getId();
-
-                        businessIdSharedPreferences.saveBusinessID(b.getId(), latitude, longitude);
+                        businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
+                        termRelateBusinesses.add(b);
+                        Log.d(TAG, "onResponse: "+termRelateBusinesses.get(0).toString());
+                        /**
+                         * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
+                         * calls
+                         */
                     }
                 }
 
@@ -135,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
      *
      * @param businessId
      */
-    private void callBusinessDetails(String businessId) {
+    private void callBusinessDetails(final String businessId) {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
                 .getBusinessDetails(businessId)
@@ -143,6 +148,21 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     @Override
                     public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
                         Log.d(TAG, "Business Detais onResponse: " + response.body());
+                        BusinessDetailWrapper businessDetailWrapper = response.body();
+                        if (businessDetailWrapper != null) {
+                            businessDetailWrapper.getName();
+                            businessDetailWrapper.getUrl();
+                            businessDetailWrapper.getAlias();
+                            businessDetailWrapper.getId();
+                            businessDetailWrapper.getCoordinates();
+                            businessDetailWrapper.getCategories();
+                            businessDetailWrapper.getIs_closed();
+                            businessDetailWrapper.getDisplay_phone();
+                            businessDetailWrapper.getHours();
+                            businessDetailWrapper.getImage_url();
+                            businessDetailWrapper.getRating();
+                            businessDetailWrapper.getPrice();
+                        }
                     }
 
                     @Override

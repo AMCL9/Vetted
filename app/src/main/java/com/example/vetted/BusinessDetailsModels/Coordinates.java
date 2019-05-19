@@ -1,6 +1,9 @@
 package com.example.vetted.BusinessDetailsModels;
 
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Coordinates {
 
     public Coordinates() {
@@ -10,6 +13,10 @@ public class Coordinates {
     private String latitude;
 
     private String longitude;
+
+    private Set <String> latAndLong = new HashSet<>();
+
+
 
     public String getLatitude() {
         return latitude;
