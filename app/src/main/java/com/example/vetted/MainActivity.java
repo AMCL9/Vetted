@@ -21,6 +21,7 @@ import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
 import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
+import com.example.vetted.controller.RecyclerViewViewholder;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.network.RetrofitSingleton;
@@ -34,7 +35,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -52,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private double latitude;
     public static String identity = "";
     private static String userInput = "";
+    public static List<Businesses> termRelateBusinesses;
     List<String> termArray = new ArrayList<>();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -111,10 +115,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
-                        List<Businesses> termRelateBusinesses = new ArrayList<>();
+                        termRelateBusinesses = new ArrayList<>();
+
+
                         identity = b.getId();
                         businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
                         termRelateBusinesses.add(b);
+                        RecyclerViewViewholder.termResults.add(b);
+                        Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
+
+
+
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network

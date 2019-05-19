@@ -3,11 +3,15 @@ package com.example.vetted.SharedPreferences;
 import android.content.SharedPreferences;
 
 import com.example.vetted.BusinessDetailsModels.Hours;
+import com.example.vetted.modells.Businesses;
 import com.example.vetted.modells.Categories;
 import com.example.vetted.modells.Coordinates;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.net.URL;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class BusinessIdSharedPreferences {
@@ -17,6 +21,17 @@ public class BusinessIdSharedPreferences {
     public static final String LATITUDE_KEY = "latitude";
     public static final String LONGITUDE_KEY = "longitude";
     public static final String USER_INPUT = "userinput";
+    public static final String NAME_KEY = "name";
+    public static final String URL_KEY = "url";
+    public static final String ALIAS_KEY = "alias";
+    public static final String IDENTIFIER_KEY = "identifier";
+    public static final String TITLE_KEY = "title";
+    public static final String CLOSED_KEY = "is closed";
+    public static final String OPEN_HOUR_KEY = "open hour";
+    public static final String CLOSED_HOUR_KEY = "hours closed";
+    public static final String DAY_KEY = "day key";
+    public static final String RATING_KEY ="rating key";
+    public static final String PRICE_KEY = "price key";
 
     private SharedPreferences sharedPreferences;
 
@@ -51,22 +66,26 @@ public class BusinessIdSharedPreferences {
                 .apply();
     }
 
+    public void saveBusinessList (Set <Businesses> businessesSet) {
+
+    }
+
     public void saveBusinessDetails(String name, String url, String alias, String id, Coordinates coordinates, Categories[] categories, boolean is_closed, Hours[] hours, String rating, String image_url, String rating1, String price) {
         sharedPreferences.edit()
-                .putString("name", name)
-                .putString("url", url)
-                .putString("alias", alias)
-                .putString("identifier", id)
+                .putString(NAME_KEY, name)
+                .putString(URL_KEY, url)
+                .putString(ALIAS_KEY, alias)
+                .putString(IDENTIFIER_KEY, id)
                 .putString(LATITUDE_KEY, String.valueOf(coordinates.getLatitude()))
                 .putString(LONGITUDE_KEY, String.valueOf(coordinates.getLongitude()))
-                .putString("title", categories[0].getTitle())
-                .putBoolean("closed", is_closed)
-                .putString("hour open", hours[0].getOpen()[0].getStart())
-                .putString("hour closed", hours[0].getOpen()[0].getEnd())
-                .putString("day", hours[0].getOpen()[0].getDay())
+                .putString(TITLE_KEY, categories[0].getTitle())
+                .putBoolean(CLOSED_KEY, is_closed)
+                .putString(OPEN_HOUR_KEY, hours[0].getOpen()[0].getStart())
+                .putString(CLOSED_HOUR_KEY, hours[0].getOpen()[0].getEnd())
+                .putString(DAY_KEY, hours[0].getOpen()[0].getDay())
 //                .putString("imageurl", image_url)
-                .putString("rating", rating)
-                .putString("price", price)
+                .putString(RATING_KEY, rating)
+                .putString(PRICE_KEY, price)
                 .apply();
 
         /**
