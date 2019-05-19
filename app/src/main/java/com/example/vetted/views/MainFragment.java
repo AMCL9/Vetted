@@ -74,7 +74,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             }
         });
         Glide.with(this)
-                .load(R.drawable.sickdog)
+                .load(R.drawable.finalvettedtransroundcopy)
                 .fitCenter()
                 .circleCrop()
                 .into(imageView);
