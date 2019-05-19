@@ -56,8 +56,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            String latParam = getArguments().getString(ARG_PARAM1);
-            String lonParam = getArguments().getString(ARG_PARAM2);
+            String latParam = getArguments().getString(LATITUDE);
+            String lonParam = getArguments().getString(LONGITUDE);
 
             lat = Double.parseDouble(Objects.requireNonNull(latParam));
             lon = Double.parseDouble(Objects.requireNonNull(lonParam));
