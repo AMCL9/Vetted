@@ -2,7 +2,10 @@ package com.example.vetted.BusinessDetailsModels;
 
 public class Open {
 
-    public Open() {
+    public Open(String start, String end, String day) {
+        this.start = start;
+        this.end = end;
+        this.day = day;
     }
 
     private boolean is_overnight;
