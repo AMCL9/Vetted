@@ -66,7 +66,8 @@ public class BusinessIdSharedPreferences {
                 .putString("day", hours[0].getOpen()[0].getDay())
 //                .putString("imageurl", image_url)
                 .putString("rating", rating)
-                .putString("price", price);
+                .putString("price", price)
+                .apply();
 
         /**
          *HashSet<String> set=new HashSet();
@@ -75,7 +76,8 @@ public class BusinessIdSharedPreferences {
 
     public void saveUserInput(String input) {
         sharedPreferences.edit()
-                .putString(USER_INPUT, input);
+                .putString(USER_INPUT, input)
+                .apply();
     }
 
 }
