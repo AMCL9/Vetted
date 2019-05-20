@@ -43,9 +43,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance(List <Businesses> termRelatedBusinesses) {
+    public static MainFragment newInstance(List<Businesses> termRelatedBusinesses) {
         MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle ();
+        Bundle args = new Bundle();
         args.putSerializable(LIST_PARAM, (Serializable) termRelatedBusinesses);
         fragment.setArguments(args);
         return fragment;
@@ -80,8 +80,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            mListener.showMapFragment((ArrayList<Businesses>) businessesList);
 
+                mListener.showMapFragment((ArrayList<Businesses>) businessesList);
 
             }
         });
@@ -91,13 +91,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 .circleCrop()
                 .into(imageView);
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -125,6 +118,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
     /**
      * do we amend, hospital or clinic to our search term here?
+     *
      * @param newText
      * @return
      */
@@ -133,7 +127,5 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public boolean onQueryTextChange(String newText) {
         return false;
     }
-
-
 
 }
