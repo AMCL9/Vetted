@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
+import com.example.vetted.modells.Businesses;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +24,8 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -30,20 +33,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
  
     private double lat;
     private double lon;
-    public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "longitude";
+    private String name;
+
+    public static final String BUSINESSES = "businesses";
     SupportMapFragment mapFragment;
     private BusinessIdSharedPreferences businessIdSharedPreferences;
     private OnFragmentInteractionListener mListener;
+    private List<Businesses> getBusinesses = new ArrayList<>();
 
 
     public MapFragment() {}
 
-    public static MapFragment newInstance(double lat, double lon) {
+    public static MapFragment newInstance(ArrayList<Businesses> termRelatedBusinesses) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        args.putDouble(LATITUDE, lat);
-        args.putDouble(LONGITUDE, lon);
+        args.putSerializable(BUSINESSES, termRelatedBusinesses);
+
         fragment.setArguments(args);
 /**
  * we will probably need to put other things into the bundle as we build other ways to navigate
@@ -57,11 +62,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            String latParam = getArguments().getString(LATITUDE);
-            String lonParam = getArguments().getString(LONGITUDE);
+            getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
 
-            lat = Double.parseDouble(Objects.requireNonNull(latParam));
-            lon = Double.parseDouble(Objects.requireNonNull(lonParam));
+            for (Businesses b : getBusinesses) {
+                name = b.getName();
+                lat = b.getCoordinates().getLatitude();
+                lon = b.getCoordinates().getLongitude();
+                businessIdSharedPreferences.saveBusinessText(name,lat,lon);
+
+            }
         }
     }
 

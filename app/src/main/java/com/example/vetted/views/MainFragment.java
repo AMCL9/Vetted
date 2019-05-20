@@ -1,6 +1,7 @@
 package com.example.vetted.views;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,6 +18,11 @@ import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
+import com.example.vetted.modells.Businesses;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -24,10 +30,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private SearchView searchView;
     private ImageView imageView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
+    private SharedPreferences sharedPreferences;
 
 
-    public static final String LATITUDE = "latitude";
-    public static final String LONGITUDE = "longitude";
+    public static final String LIST_PARAM = "list";
+    public List<Businesses> businessesList = new ArrayList<>();
 
     private Fragmentinterface mListener;
 
@@ -36,9 +43,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance() {
+    public static MainFragment newInstance(List <Businesses> termRelatedBusinesses) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle ();
+        args.putSerializable(LIST_PARAM, (Serializable) termRelatedBusinesses);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -46,6 +55,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+
+            businessesList = (List<Businesses>) getArguments().getSerializable(LIST_PARAM);
+
 
         }
     }
@@ -68,7 +80,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//            mListener.showMapFragment(,LONGITUDE);
+            mListener.showMapFragment((ArrayList<Businesses>) businessesList);
+
+
             }
         });
         Glide.with(this)
@@ -77,6 +91,12 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 .circleCrop()
                 .into(imageView);
     }
+
+
+
+
+
+
 
 
 
