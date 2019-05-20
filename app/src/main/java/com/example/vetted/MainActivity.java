@@ -235,17 +235,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMainFragment() {
+    public void showMainFragment(List<Businesses> termRelateBusinesses) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MainFragment.newInstance())
+                .replace(R.id.fragment_container, MainFragment.newInstance(termRelateBusinesses))
                 .commit();
 
     }
 
     @Override
-    public void showMapFragment(Double one, Double two) {
+    public void showMapFragment(ArrayList<Businesses> termRelateBusinesses) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance(one, two))
+                .replace(R.id.fragment_container, MapFragment.newInstance(termRelateBusinesses))
                 .addToBackStack(null)
                 .commit();
 
@@ -309,7 +309,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 .load(R.drawable.vettedlogo)
                                 .fitCenter()
                                 .into(imageView);
-                        fragmentinterface.showMainFragment();
+                        fragmentinterface.showMainFragment(termRelateBusinesses);
 
                     }
                 }, SPLASH_TIME_OUT);
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                 longitude = lastLocation.getLongitude();
                                 latitude = lastLocation.getLatitude();
                                 businessIdSharedPreferences.saveUserLocation(latitude, longitude);
-                                fragmentinterface.showMapFragment(latitude, longitude);
+
 
 
                             } else {
