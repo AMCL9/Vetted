@@ -1,9 +1,12 @@
 package com.example.vetted.modells;
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-public class Businesses {
+public class Businesses implements Parcelable {
   @SerializedName("distance")
   @Expose
   private Double distance;
@@ -54,7 +57,51 @@ public class Businesses {
   public Businesses(){
   }
 
-  public void setDistance(Double distance){
+    protected Businesses(Parcel in) {
+        if (in.readByte() == 0) {
+            distance = null;
+        } else {
+            distance = in.readDouble();
+        }
+        image_url = in.readString();
+        if (in.readByte() == 0) {
+            rating = null;
+        } else {
+            rating = in.readDouble();
+        }
+        if (in.readByte() == 0) {
+            review_count = null;
+        } else {
+            review_count = in.readInt();
+        }
+        url = in.readString();
+        display_phone = in.readString();
+        if (in.readByte() == 0) {
+            phone = null;
+        } else {
+            phone = in.readLong();
+        }
+        price = in.readString();
+        name = in.readString();
+        alias = in.readString();
+        id = in.readString();
+        byte tmpIs_closed = in.readByte();
+        is_closed = tmpIs_closed == 0 ? null : tmpIs_closed == 1;
+    }
+
+    public static final Creator<Businesses> CREATOR = new Creator<Businesses>() {
+        @Override
+        public Businesses createFromParcel(Parcel in) {
+            return new Businesses(in);
+        }
+
+        @Override
+        public Businesses[] newArray(int size) {
+            return new Businesses[size];
+        }
+    };
+
+    public void setDistance(Double distance){
    this.distance=distance;
   }
   public Double getDistance(){
@@ -144,4 +191,45 @@ public class Businesses {
   public Boolean getIs_closed(){
    return is_closed;
   }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (distance == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(distance);
+        }
+        dest.writeString(image_url);
+        if (rating == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeDouble(rating);
+        }
+        if (review_count == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeInt(review_count);
+        }
+        dest.writeString(url);
+        dest.writeString(display_phone);
+        if (phone == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(phone);
+        }
+        dest.writeString(price);
+        dest.writeString(name);
+        dest.writeString(alias);
+        dest.writeString(id);
+        dest.writeByte((byte) (is_closed == null ? 0 : is_closed ? 1 : 2));
+    }
 }

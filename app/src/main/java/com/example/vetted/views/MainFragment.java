@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import com.example.vetted.modells.Businesses;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
@@ -31,10 +35,11 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private ImageView imageView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
     private SharedPreferences sharedPreferences;
+    private static final String TAG = "WHY ARE U NULL?";
 
-
+    public ArrayList<Businesses> businessesList;
     public static final String LIST_PARAM = "list";
-    public List<Businesses> businessesList = new ArrayList<>();
+
 
     private Fragmentinterface mListener;
 
@@ -43,10 +48,10 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance(List <Businesses> termRelatedBusinesses) {
+    public static MainFragment newInstance(ArrayList <Businesses> termRelatedBusinesses) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle ();
-        args.putSerializable(LIST_PARAM, (Serializable) termRelatedBusinesses);
+        args.putParcelableArrayList(LIST_PARAM, termRelatedBusinesses);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +61,9 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
-            businessesList = (List<Businesses>) getArguments().getSerializable(LIST_PARAM);
+            businessesList = getArguments().getParcelableArrayList(LIST_PARAM);
+
+
 
 
         }
@@ -73,14 +80,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         searchView = view.findViewById(R.id.main_fragment_searchview);
-        searchView.setOnQueryTextListener(this);
         Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
         mapFragmentButton = view.findViewById(R.id.go);
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            mListener.showMapFragment((ArrayList<Businesses>) businessesList);
+            mListener.showMapFragment(businessesList);
 
 
             }
@@ -90,6 +96,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 .fitCenter()
                 .circleCrop()
                 .into(imageView);
+        searchView.setOnQueryTextListener(this);
     }
 
 
@@ -119,15 +126,20 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+       query = searchView.getQuery().toString();
+       if (query.length() > 0){
         businessIdSharedPreferences.saveUserInput(query);
+        Log.d(TAG, "onQueryTextSubmit: "+query);}
         return false;
     }
+
 
     /**
      * do we amend, hospital or clinic to our search term here?
      * @param newText
      * @return
      */
+
 
     @Override
     public boolean onQueryTextChange(String newText) {
