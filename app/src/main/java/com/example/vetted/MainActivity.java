@@ -35,10 +35,13 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
+
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +60,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public static String identity = "";
     private static String userInput = "";
     public static List<Businesses> termRelateBusinesses;
-    List<String> termArray = new ArrayList<>();
+    private List<Coordinates> coordinateArrayList = null;
+    private List<Double> longitudeArrayList = null;
+
     Coordinates coordinates;
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -112,14 +117,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
-
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(TAG, (Serializable) businessSearch);
+                MapFragment mapFragment = new MapFragment();
+                mapFragment.setArguments(bundle);
 
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         termRelateBusinesses = new ArrayList<>();
-                        longitude = b.getCoordinates().getLongitude();
-
                         identity = b.getId();
                         businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
                         termRelateBusinesses.add(b);

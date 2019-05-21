@@ -63,11 +63,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
 
         if (getArguments() != null) {
-
             for (Businesses b : getBusinesses) {
-                name = b.getName();
                 lat = b.getCoordinates().getLatitude();
                 lon = b.getCoordinates().getLongitude();
+                name = b.getName();
                 businessIdSharedPreferences.saveBusinessText(name, lat, lon);
 
             }
