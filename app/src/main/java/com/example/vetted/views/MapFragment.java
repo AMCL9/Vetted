@@ -30,11 +30,10 @@ import java.util.Objects;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
- 
+
     private double lat;
     private double lon;
     private String name;
-
     public static final String BUSINESSES = "businesses";
     SupportMapFragment mapFragment;
     private BusinessIdSharedPreferences businessIdSharedPreferences;
@@ -42,7 +41,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private List<Businesses> getBusinesses = new ArrayList<>();
 
 
-    public MapFragment() {}
+    public MapFragment() {
+    }
 
     public static MapFragment newInstance(ArrayList<Businesses> termRelatedBusinesses) {
         MapFragment fragment = new MapFragment();
@@ -60,15 +60,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
 
         if (getArguments() != null) {
-            getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
 
             for (Businesses b : getBusinesses) {
                 name = b.getName();
                 lat = b.getCoordinates().getLatitude();
                 lon = b.getCoordinates().getLongitude();
-                businessIdSharedPreferences.saveBusinessText(name,lat,lon);
+                businessIdSharedPreferences.saveBusinessText(name, lat, lon);
 
             }
         }
@@ -125,7 +125,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         LatLng coordinate = new LatLng(lat, lon);
         LatLng getLocation = new LatLng(lat, lon);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(1);
         CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
         googleMap.addMarker(new MarkerOptions().position(getLocation).title("Marker"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(getLocation));

@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         termRelateBusinesses = new ArrayList<>();
-
+                        longitude = b.getCoordinates().getLongitude();
 
                         identity = b.getId();
                         businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
