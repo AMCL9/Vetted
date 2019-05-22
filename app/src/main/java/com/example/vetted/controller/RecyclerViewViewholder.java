@@ -8,16 +8,9 @@ import android.widget.TextView;
 import com.example.vetted.MainActivity;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
-import com.example.vetted.modells.Location;
 import com.example.vetted.views.RecyclerViewFragment;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
 
 public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
 

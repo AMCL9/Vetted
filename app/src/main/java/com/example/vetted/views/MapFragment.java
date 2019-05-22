@@ -1,7 +1,6 @@
 package com.example.vetted.views;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,8 +25,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -68,7 +65,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 lon = b.getCoordinates().getLongitude();
                 name = b.getName();
                 businessIdSharedPreferences.saveBusinessText(name, lat, lon);
-
             }
         }
     }
@@ -80,11 +76,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -138,7 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
     public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(List<Businesses> termrelatedBusinesses);
     }
 
 }

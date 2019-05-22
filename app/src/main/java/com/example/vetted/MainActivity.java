@@ -5,15 +5,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.AutoComplete.AutoComplete;
@@ -37,18 +36,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
-
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
+public class MainActivity extends AppCompatActivity implements Fragmentinterface, MapFragment.OnFragmentInteractionListener {
 
     int played = 1;
     ImageView imageView;
@@ -62,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public static List<Businesses> termRelateBusinesses;
     private List<Coordinates> coordinateArrayList = null;
     private List<Double> longitudeArrayList = null;
-
+    MapFragment.OnFragmentInteractionListener onFragmentInteractionListenerl;
     Coordinates coordinates;
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -71,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
-    Fragmentinterface fragmentinterface;
 
 
     @Override
@@ -131,9 +125,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         termRelateBusinesses.add(b);
                         RecyclerViewViewholder.termResults.add(b);
                         Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
-
-
-
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
@@ -179,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                     businessDetailWrapper.getIs_closed(),
                                     businessDetailWrapper.getHours(),
                                     businessDetailWrapper.getRating(),
-
                                     businessDetailWrapper.getImage_url(),
                                     businessDetailWrapper.getRating(),
                                     businessDetailWrapper.getPrice());
@@ -274,6 +264,12 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .commit();
 
     }
+
+    @Override
+    public void onFragmentInteraction(List<Businesses> termRelateBusinesses) {
+
+    }
+
 
     private class LoadingTask extends AsyncTask<Void, Void, Void> {
         Fragmentinterface fragmentinterface;
@@ -372,7 +368,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
        sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
        if (sharedPreferences != null) {
            userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, "");
-
 
        }
        return userInput;

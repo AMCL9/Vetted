@@ -6,12 +6,7 @@ import com.example.vetted.BusinessDetailsModels.Hours;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.modells.Categories;
 import com.example.vetted.modells.Coordinates;
-import com.google.android.gms.maps.model.LatLng;
 
-import java.net.URL;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class BusinessIdSharedPreferences {
