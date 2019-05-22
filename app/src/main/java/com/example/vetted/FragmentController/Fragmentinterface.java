@@ -11,4 +11,5 @@ public interface Fragmentinterface {
   void showRecyclerViewFragment (ArrayList<Businesses> businessesList);
   void showDetailsFragment ();
   void passBusinessSearch ();
+  void passID (String id);
 }

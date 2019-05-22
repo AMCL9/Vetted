@@ -17,7 +17,7 @@ public interface YelpServiceCall {
 
     @Headers({"Authorization:Bearer " + token})
     @GET("businesses/search")
-    Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("longitude") double longitude, @Query("latitude") double latitude);
+    Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("longitude") double longitude, @Query("latitude") double latitude, @Query("categories") String categories);
 
     @Headers({"Authorization:Bearer " + token})
     @GET("businesses/{id}")

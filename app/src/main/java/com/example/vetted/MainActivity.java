@@ -98,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
 
+            callBusinessSearch();
+
             callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
             callAutoCorrect();
             callReviews("WavvLdfdP6g8aZTtbBQHTw");
@@ -109,10 +111,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(getUserInput(), longitude, latitude);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("emergency", longitude, latitude, "pets");
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
-            public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
+            public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
 
@@ -123,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         termRelateBusinesses = new ArrayList<>();
 
                         Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
+                        Log.d(TAG, "onResponse: " +b.getCoordinates().getLongitude().toString());
                         // if you check the logcat, you will see there the latitude for this business.
 //
 //                        businessIdSharedPreferences.saveBusinessID(identity, businessLat, businessLong);
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
 
-                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
+                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).getName());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
                          * calls
@@ -279,6 +282,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
     }
 
+    @Override
+    public void passID(String id) {
+
+    }
+
     private class LoadingTask extends AsyncTask<Void, Void, Void> {
         Fragmentinterface fragmentinterface;
         private int count = 0;
@@ -341,7 +349,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
+                            .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                         // TODO: Consider calling
                         //    ActivityCompat#requestPermissions
                         // here to request the missing permissions, and then overriding
