@@ -1,6 +1,7 @@
 package com.example.vetted.SharedPreferences;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.example.vetted.BusinessDetailsModels.Hours;
 import com.example.vetted.modells.Businesses;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 public class BusinessIdSharedPreferences {
+
+    public static final String TAG = "NULL?";
     public static final String SHARED_PREF_KEY = "Shared Preferences Key";
     public static final String ID_KEY = "ID";
     public static final String TEXT_KEY = "text";
@@ -33,7 +36,8 @@ public class BusinessIdSharedPreferences {
     public static final String RATING_KEY ="rating key";
     public static final String PRICE_KEY = "price key";
 
-    private SharedPreferences sharedPreferences;
+
+    private final SharedPreferences sharedPreferences;
 
     public BusinessIdSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;
@@ -55,6 +59,7 @@ public class BusinessIdSharedPreferences {
                 .putString(LATITUDE_KEY, Double.toString(lat))
                 .putString(LONGITUDE_KEY, Double.toString(lon))
                 .apply();
+        Log.d(TAG, "saveUserLocation: " +sharedPreferences.getString(LATITUDE_KEY,"0.0"));
     }
 
 
@@ -64,6 +69,7 @@ public class BusinessIdSharedPreferences {
                 .putString(LATITUDE_KEY,Double.toString(lat))
                 .putString(LONGITUDE_KEY, Double.toString(lon))
                 .apply();
+        Log.d(TAG, "saveBusinessText: " + lat);
     }
 
     public void saveBusinessList (Set <Businesses> businessesSet) {
