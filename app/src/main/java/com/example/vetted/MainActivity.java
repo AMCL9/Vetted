@@ -5,14 +5,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.AutoComplete.AutoComplete;
@@ -34,16 +35,18 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements Fragmentinterface, MapFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
 
     int played = 1;
     ImageView imageView;
@@ -54,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private double latitude;
     public static String identity = "";
     private static String userInput = "";
-    public static List<Businesses> termRelateBusinesses;
-    private List<Coordinates> coordinateArrayList = null;
-    private List<Double> longitudeArrayList = null;
-    MapFragment.OnFragmentInteractionListener onFragmentInteractionListenerl;
+    public static Double businessLat = 0.0;
+    public static Double businessLong = 0.0;
+    public static ArrayList<Businesses> termRelateBusinesses;
+    List<String> termArray = new ArrayList<>();
     Coordinates coordinates;
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
+    Fragmentinterface fragmentinterface;
 
 
     @Override
@@ -93,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
-            callBusinessSearch();
+
             callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
             callAutoCorrect();
             callReviews("WavvLdfdP6g8aZTtbBQHTw");
@@ -111,20 +115,23 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body());
                 BusinessSearch businessSearch = response.body();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(TAG, (Serializable) businessSearch);
-                MapFragment mapFragment = new MapFragment();
-                mapFragment.setArguments(bundle);
+
 
                 if (businessSearch != null) {
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         termRelateBusinesses = new ArrayList<>();
-                        identity = b.getId();
-                        businessIdSharedPreferences.saveBusinessID(identity, latitude, longitude);
+
+                        Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
+                        // if you check the logcat, you will see there the latitude for this business.
+//
+//                        businessIdSharedPreferences.saveBusinessID(identity, businessLat, businessLong);
                         termRelateBusinesses.add(b);
                         RecyclerViewViewholder.termResults.add(b);
                         Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
+
+
+
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
@@ -170,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                                     businessDetailWrapper.getIs_closed(),
                                     businessDetailWrapper.getHours(),
                                     businessDetailWrapper.getRating(),
+
                                     businessDetailWrapper.getImage_url(),
                                     businessDetailWrapper.getRating(),
                                     businessDetailWrapper.getPrice());
@@ -231,9 +239,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMainFragment(List<Businesses> termRelateBusinesses) {
+    public void showMainFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MainFragment.newInstance(termRelateBusinesses))
+                .replace(R.id.fragment_container, MainFragment.newInstance())
                 .commit();
 
     }
@@ -248,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showRecyclerViewFragment(List<Businesses> businessesList) {
+    public void showRecyclerViewFragment(ArrayList<Businesses> businessesList) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, RecyclerViewFragment.newInstance(businessesList))
                 .addToBackStack(null)
@@ -266,10 +274,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void onFragmentInteraction(List<Businesses> termRelateBusinesses) {
+    public void passBusinessSearch() {
+        callBusinessSearch();
 
     }
-
 
     private class LoadingTask extends AsyncTask<Void, Void, Void> {
         Fragmentinterface fragmentinterface;
@@ -301,17 +309,20 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             return null;
         }
 
+
         @Override
         protected void onPostExecute(Void aVoid) {
             if (count == played) {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         Glide.with(MainActivity.this)
-                                .load(R.drawable.vettedlogo)
-                                .fitCenter()
+
+                                .load(R.drawable.vetted)
+                                .placeholder(R.drawable.vetted)
                                 .into(imageView);
-                        fragmentinterface.showMainFragment(termRelateBusinesses);
+                        fragmentinterface.showMainFragment();
 
                     }
                 }, SPLASH_TIME_OUT);
@@ -346,6 +357,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                             if (location != null) {
                                 lastLocation = location;
                                 longitude = lastLocation.getLongitude();
+                                Log.d(TAG, "onSuccess: "+lastLocation.getLatitude());
+                                Log.d(TAG, "onSuccess: "+lastLocation.getLongitude());
                                 latitude = lastLocation.getLatitude();
                                 businessIdSharedPreferences.saveUserLocation(latitude, longitude);
 
@@ -367,9 +380,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
    private String getUserInput () {
        sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
        if (sharedPreferences != null) {
-           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, "");
+           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, " ");
+
 
        }
        return userInput;
+
    }
+
+
 }

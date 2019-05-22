@@ -53,7 +53,7 @@ public class RecyclerViewFragment extends Fragment {
             businessesList = (List<Businesses>) getArguments().getSerializable(LIST_PARAM);
             Log.d("ARFARF", "onCreate: " + getArguments().getSerializable(LIST_PARAM));
         }
-        Retrofit retrofit = RetrofitSingleton.getInstance();
+
     }
 
     @Override

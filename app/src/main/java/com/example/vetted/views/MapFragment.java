@@ -1,6 +1,7 @@
 package com.example.vetted.views;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.Businesses;
@@ -25,26 +27,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
-
+ 
     private double lat;
     private double lon;
     private String name;
+
     public static final String BUSINESSES = "businesses";
     SupportMapFragment mapFragment;
     private BusinessIdSharedPreferences businessIdSharedPreferences;
-    private OnFragmentInteractionListener mListener;
+    private Fragmentinterface mListener;
     private List<Businesses> getBusinesses = new ArrayList<>();
 
 
-    public MapFragment() {
-    }
+    public MapFragment() {}
 
     public static MapFragment newInstance(ArrayList<Businesses> termRelatedBusinesses) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        args.putSerializable(BUSINESSES, termRelatedBusinesses);
+        args.putParcelableArrayList(BUSINESSES, termRelatedBusinesses);
 
         fragment.setArguments(args);
 /**
@@ -57,17 +61,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
 
         if (getArguments() != null) {
-            for (Businesses b : getBusinesses) {
-                lat = b.getCoordinates().getLatitude();
-                lon = b.getCoordinates().getLongitude();
-                name = b.getName();
-                businessIdSharedPreferences.saveBusinessText(name, lat, lon);
+            getBusinesses = getArguments().getParcelableArrayList(BUSINESSES);
+
             }
         }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,11 +77,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
 
 
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof Fragmentinterface) {
+            mListener = (Fragmentinterface) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -103,6 +104,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
         mapFragment.getMapAsync(this);
+
+
+
     }
 
     @Override
@@ -115,7 +119,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         LatLng coordinate = new LatLng(lat, lon);
         LatLng getLocation = new LatLng(lat, lon);
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(1);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(10);
         CameraUpdate center = CameraUpdateFactory.newLatLng(coordinate);
         googleMap.addMarker(new MarkerOptions().position(getLocation).title("Marker"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(getLocation));
@@ -127,9 +131,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(List<Businesses> termrelatedBusinesses);
-    }
 
 }
