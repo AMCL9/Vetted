@@ -55,7 +55,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static MapFragment newInstance(ArrayList<Businesses> termRelatedBusinesses) {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
-        args.putSerializable(BUSINESSES, termRelatedBusinesses);
+        args.putParcelableArrayList(BUSINESSES, termRelatedBusinesses);
 
         fragment.setArguments(args);
 /**
@@ -70,17 +70,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            getBusinesses = (List<Businesses>) getArguments().getSerializable(BUSINESSES);
-
-            for (Businesses b : getBusinesses) {
-                name = b.getName();
-                lat = b.getCoordinates().getLatitude();
-                lon = b.getCoordinates().getLongitude();
-                businessIdSharedPreferences.saveBusinessText(name,lat,lon);
+            getBusinesses = getArguments().getParcelableArrayList(BUSINESSES);
 
             }
         }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
