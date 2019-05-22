@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .enqueue(new Callback<BusinessDetailWrapper>() {
                     @Override
                     public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
-                        Log.d(TAG, "Business Detais onResponse: " + response.body());
+                        Log.d(TAG, "Business Details onResponse: " + response.body());
                         BusinessDetailWrapper businessDetailWrapper = response.body();
                         if (businessDetailWrapper != null) {
                             businessIdSharedPreferences.saveBusinessDetails(
@@ -201,13 +201,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 .enqueue(new Callback<AutoComplete>() {
                     @Override
                     public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
-                        Log.d(TAG, "Autocorrect onResponse:" + response.body());
+                        Log.d(TAG, "Autocomplete onResponse:" + response.body());
 
                     }
 
                     @Override
                     public void onFailure(Call<AutoComplete> call, Throwable t) {
-                        Log.d(TAG, "Autocorrect onFailure: " + t.getMessage());
+                        Log.d(TAG, "Autocomplete onFailure: " + t.getMessage());
 
                     }
                 });
