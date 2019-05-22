@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.controller.RecyclerViewAdapter;
 import com.example.vetted.modells.Businesses;
@@ -31,7 +32,7 @@ public class RecyclerViewFragment extends Fragment {
     private static final String LOGTAG = "TAGTAGTAG";
     private RecyclerViewAdapter adapter;
     private List<Businesses> businessesList = new ArrayList<>();
-    private OnFragmentInteractionListener mListener;
+    private Fragmentinterface mListener;
 
     public RecyclerViewFragment() {
 
@@ -72,17 +73,17 @@ public class RecyclerViewFragment extends Fragment {
     }
 
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof Fragmentinterface) {
+            mListener = (Fragmentinterface) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");

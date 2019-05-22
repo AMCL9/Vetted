@@ -8,6 +8,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +17,7 @@ import android.view.ViewGroup;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
+import com.example.vetted.controller.RecyclerViewAdapter;
 import com.example.vetted.modells.Businesses;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,11 +30,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
- 
+    private RecyclerView recyclerView;
+    private static final String LIST_PARAM = "ListParam";
+    private static final String LOGTAG = "TAGTAGTAG";
+    private RecyclerViewAdapter adapter;
+
     private double lat;
     private double lon;
     private String name;
@@ -107,6 +114,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
         mapFragment.getMapAsync(this);
+
+        recyclerView = view.findViewById(R.id.recyclerView);
+        adapter = new RecyclerViewAdapter(getBusinesses, mListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

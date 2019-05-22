@@ -6,18 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
-import com.example.vetted.views.RecyclerViewFragment;
 
 import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewholder> {
     List<Businesses> objects;
-    private RecyclerViewFragment.OnFragmentInteractionListener listener;
+    private Fragmentinterface listener;
 
-    public RecyclerViewAdapter(List<Businesses> objects, RecyclerViewFragment.OnFragmentInteractionListener listener) {
+    public RecyclerViewAdapter(List<Businesses> objects, Fragmentinterface listener) {
         this.objects = objects;
         this.listener = listener;
     }

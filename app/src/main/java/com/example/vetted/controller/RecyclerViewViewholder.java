@@ -5,19 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.MainActivity;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
-import com.example.vetted.modells.Location;
+
 import com.example.vetted.views.RecyclerViewFragment;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import jp.co.cyberagent.android.gpuimage.util.TextureRotationUtil;
 
 public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
 
@@ -26,9 +22,9 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
 
     public static List<Businesses> termResults = MainActivity.termRelateBusinesses;
 
-    private RecyclerViewFragment.OnFragmentInteractionListener listener;
+    private Fragmentinterface listener;
 
-    public RecyclerViewViewholder(@NonNull View itemView, RecyclerViewFragment.OnFragmentInteractionListener listener) {
+    public RecyclerViewViewholder(@NonNull View itemView, Fragmentinterface listener) {
         super(itemView);
         this.listener = listener;
         name = itemView.findViewById(R.id.names);
@@ -38,7 +34,7 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
     }
 
 
-    public void onBind(final Businesses objects, final RecyclerViewFragment.OnFragmentInteractionListener listener) {
+    public void onBind(final Businesses objects, final Fragmentinterface listener) {
         name.setText(termResults.get(0).getId());
         price.setText(getPrice(termResults));
         rating.setText(String.format(Double.toString(getRating(termResults))));
