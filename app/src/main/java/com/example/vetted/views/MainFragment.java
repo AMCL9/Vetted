@@ -3,6 +3,7 @@ package com.example.vetted.views;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
@@ -33,8 +35,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     private Button mapFragmentButton;
     private SearchView searchView;
     private ImageView imageView;
+    private TextView textView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
-    private SharedPreferences sharedPreferences;
     private static final String TAG = "WHY ARE U NULL?";
 
     public ArrayList<Businesses> businessesList;
@@ -48,10 +50,10 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     }
 
 
-    public static MainFragment newInstance(ArrayList <Businesses> termRelatedBusinesses) {
+    public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
-        Bundle args = new Bundle ();
-        args.putParcelableArrayList(LIST_PARAM, termRelatedBusinesses);
+        Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,9 +63,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
+            businessIdSharedPreferences = new BusinessIdSharedPreferences(getActivity().getSharedPreferences(businessIdSharedPreferences.USER_INPUT, Context.MODE_PRIVATE));
             businessesList = getArguments().getParcelableArrayList(LIST_PARAM);
-
-
 
 
         }
@@ -86,7 +87,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            mListener.showMapFragment(businessesList);
+                mListener.showMapFragment(businessesList);
 
 
             }
@@ -98,13 +99,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 .into(imageView);
         searchView.setOnQueryTextListener(this);
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -126,16 +120,18 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-       query = searchView.getQuery().toString();
-       if (query.length() > 0){
-        businessIdSharedPreferences.saveUserInput(query);
-        Log.d(TAG, "onQueryTextSubmit: "+query);}
+        query = searchView.getQuery().toString();
+        if (query.length() > 0) {
+            businessIdSharedPreferences.saveUserInput(query);
+
+            Log.d(TAG, "onQueryTextSubmit: " + query);
+        }
         return false;
     }
 
-
     /**
      * do we amend, hospital or clinic to our search term here?
+     *
      * @param newText
      * @return
      */
@@ -145,7 +141,6 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     public boolean onQueryTextChange(String newText) {
         return false;
     }
-
 
 
 }

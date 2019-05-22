@@ -239,10 +239,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMainFragment(ArrayList<Businesses> termRelateBusinesses) {
-        callBusinessSearch();
+    public void showMainFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MainFragment.newInstance(termRelateBusinesses))
+                .replace(R.id.fragment_container, MainFragment.newInstance())
                 .commit();
 
     }
@@ -310,11 +309,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                         Glide.with(MainActivity.this)
-                                .load(R.drawable.vettedlogo)
-                                .fitCenter()
+
+                                .load(R.drawable.vetted)
+                                .placeholder(R.drawable.vetted)
                                 .into(imageView);
-                        fragmentinterface.showMainFragment(termRelateBusinesses);
+                        fragmentinterface.showMainFragment();
 
                     }
                 }, SPLASH_TIME_OUT);
@@ -372,10 +373,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
    private String getUserInput () {
        sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
        if (sharedPreferences != null) {
-           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, "");
+           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, " ");
 
 
        }
        return userInput;
+
    }
+
+
 }

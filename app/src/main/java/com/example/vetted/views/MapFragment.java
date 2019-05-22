@@ -65,15 +65,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (getArguments() != null) {
             getBusinesses = getArguments().getParcelableArrayList(BUSINESSES);
 
-            for (Businesses b : getBusinesses) {
-                name = b.getName();
-                lat = b.getCoordinates().getLatitude();
-                lon = b.getCoordinates().getLongitude();
-                businessIdSharedPreferences.saveBusinessText(name,lat,lon);
-
             }
         }
-    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -110,6 +104,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         }
         mapFragment.getMapAsync(this);
+
+
+
     }
 
     @Override
@@ -134,9 +131,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     }
 
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
-    }
 
 }

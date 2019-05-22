@@ -18,7 +18,6 @@ import java.util.Set;
 public class BusinessIdSharedPreferences {
 
     public static final String TAG = "NULL?";
-
     public static final String SHARED_PREF_KEY = "Shared Preferences Key";
     public static final String ID_KEY = "ID";
     public static final String TEXT_KEY = "text";
@@ -38,7 +37,7 @@ public class BusinessIdSharedPreferences {
     public static final String PRICE_KEY = "price key";
 
 
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
 
     public BusinessIdSharedPreferences(SharedPreferences sharedPreferences) {
         this.sharedPreferences = sharedPreferences;

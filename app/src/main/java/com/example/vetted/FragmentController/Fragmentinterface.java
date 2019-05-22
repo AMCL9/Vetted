@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface Fragmentinterface {
-  void showMainFragment (ArrayList <Businesses> termRelatedBusinesses);
+  void showMainFragment ();
   void showMapFragment (ArrayList<Businesses> termRelatedBusinesses);
   void showRecyclerViewFragment (ArrayList<Businesses> businessesList);
   void showDetailsFragment ();
