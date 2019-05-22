@@ -273,6 +273,12 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
     }
 
+    @Override
+    public void passBusinessSearch() {
+        callBusinessSearch();
+
+    }
+
     private class LoadingTask extends AsyncTask<Void, Void, Void> {
         Fragmentinterface fragmentinterface;
         private int count = 0;
@@ -302,6 +308,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             }
             return null;
         }
+
 
         @Override
         protected void onPostExecute(Void aVoid) {

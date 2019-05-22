@@ -10,4 +10,5 @@ public interface Fragmentinterface {
   void showMapFragment (ArrayList<Businesses> termRelatedBusinesses);
   void showRecyclerViewFragment (ArrayList<Businesses> businessesList);
   void showDetailsFragment ();
+  void passBusinessSearch ();
 }

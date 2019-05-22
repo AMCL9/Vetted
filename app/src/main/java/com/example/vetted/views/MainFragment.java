@@ -123,6 +123,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         query = searchView.getQuery().toString();
         if (query.length() > 0) {
             businessIdSharedPreferences.saveUserInput(query);
+            mListener.passBusinessSearch();
 
             Log.d(TAG, "onQueryTextSubmit: " + query);
         }
