@@ -12,7 +12,7 @@ public interface Fragmentinterface {
   void showDetailsFragment ();
   void passBusinessSearch ();
   void passID (String id);
-  void update (String string);
+  String update (String string);
 
 
 }

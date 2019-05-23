@@ -124,7 +124,8 @@ public class MainFragment extends Fragment {
                 Log.d(TAG, "onClick:" + getPassedTerm(userChoice));
 
                 mListener.passBusinessSearch();
-                mListener.showMapFragment(businessesList);
+
+
 
 
             }

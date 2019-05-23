@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 //                        businessIdSharedPreferences.saveBusinessID(identity, businessLat, businessLong);
                         termRelateBusinesses.add(b);
                         RecyclerViewViewholder.termResults.add(b);
+
                         Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
 
 
@@ -286,7 +287,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void update(String passTerm) {
+    public String update(String passTerm) {
+        return passTerm;
 
     }
 
