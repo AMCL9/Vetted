@@ -35,11 +35,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,10 +52,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    public static String identity = "";
     private static String userInput = "";
+    private static String passTerm = "";
     public static Double businessLat = 0.0;
     public static Double businessLong = 0.0;
+    public static final String CATEGORIES = "petservices";
     public static ArrayList<Businesses> termRelateBusinesses;
     List<String> termArray = new ArrayList<>();
     Coordinates coordinates;
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
-    Fragmentinterface fragmentinterface;
+
 
 
     @Override
@@ -98,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
 
-            callBusinessSearch();
 
             callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
             callAutoCorrect();
@@ -109,13 +106,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
     public void callBusinessSearch() {
+
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch("emergency", longitude, latitude, "pets");
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(passTerm,  longitude, latitude, CATEGORIES);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
-                Log.d(TAG, "Business Search onResponse: " + response.body());
+                Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
                 BusinessSearch businessSearch = response.body();
 
 
@@ -286,6 +284,12 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public void passID(String id) {
 
     }
+
+    @Override
+    public void update(String passTerm) {
+
+    }
+
 
     private class LoadingTask extends AsyncTask<Void, Void, Void> {
         Fragmentinterface fragmentinterface;

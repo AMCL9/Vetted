@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="categories">
+        <item>Pet Related Businesses</item>
+        <item>Veterinarians</item>
+        <item>Emergency Pet Services</item>
+        <item>Pet Insurance</item>
+        <item>Pet Therapy</item>
+        <item>Holistic Pet Care</item>
+        <item>Hospice</item>
+        <item>Animal Hospitals</item>
+        <item>General Pet Services</item>
+        <item>Animal Training</item>
+        <item>Animal Transportation</item>
+        <item>Aquarium Services</item>
+        <item>Pet Stores</item>
+    </string-array>
+</resources>

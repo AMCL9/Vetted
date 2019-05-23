@@ -1,46 +1,72 @@
 package com.example.vetted.views;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
+import com.example.vetted.FragmentController.TermUpdate;
+import com.example.vetted.FragmentController.Update;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.Businesses;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Objects;
 
 
-public class MainFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class MainFragment extends Fragment {
     private Button mapFragmentButton;
-    private SearchView searchView;
     private ImageView imageView;
     private TextView textView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
+    public ArrayList<Businesses> businessesList;
     private static final String TAG = "WHY ARE U NULL?";
 
-    public ArrayList<Businesses> businessesList;
-    public static final String LIST_PARAM = "list";
+    public static final String ANIMALS = "animals";
+    public static final String VETS = "veterinarian";
+    public static final String EMERGENCY = "emergency";
+    public static final String PET_INSURANCE = "pet insurance";
+    public static final String HOLISTIC = "animal holistic";
+    public static final String HOSPICE = "pet hospice";
+    public static final String PET_THERAPY = "pet therapy";
+    public static final String HOSPITAL = "animal hospital";
+    public static final String SERVICES = "petservices";
+    public static final String TRAINING = "pet training";
+    public static final String TRANSPORTATION = "animal transportation";
+    public static final String AQUARIUM = "aquarium services";
+    public static final String STORE = "pet store";
+
+    private static final String CHOICEPET = "Pet Related Businesses";
+    private static final String CHOICEVET = "Veterinarians";
+    private static final String CHOICEEMS = "Emergency Pet Services";
+    private static final String CHOICEINSURANCE = "Pet Insurance";
+    private static final String CHOICETHERAPY = "Pet Therapy";
+    private static final String CHOICEHOLISTIC = "Holistic Pet Care";
+    private static final String CHOICEHOSPICE = "Hospice";
+    private static final String CHOICEHOSPITAL = "Animal Hospitals";
+    private static final String CHOICESERVICES = "General Pet Services";
+    private static final String CHOICETRAINING = "Animal Training";
+    private static final String CHOICETRANSPORTATION = "Animal Transportation";
+    private static final String CHOICEAQUARIUM = "Aquarium Services";
+    private static final String CHOICESTORES = "Pet Stores";
+
+    public static String userChoice;
+
+    String word = "word";
 
 
     private Fragmentinterface mListener;
@@ -58,13 +84,13 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
-            businessIdSharedPreferences = new BusinessIdSharedPreferences(getActivity().getSharedPreferences(businessIdSharedPreferences.USER_INPUT, Context.MODE_PRIVATE));
-            businessesList = getArguments().getParcelableArrayList(LIST_PARAM);
+            businessIdSharedPreferences = new BusinessIdSharedPreferences(Objects.requireNonNull(getActivity()).getSharedPreferences(BusinessIdSharedPreferences.USER_INPUT, Context.MODE_PRIVATE));
 
 
         }
@@ -80,13 +106,24 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        searchView = view.findViewById(R.id.main_fragment_searchview);
-        Switch switchtoggle = view.findViewById(R.id.switch1);
+        final Spinner servicesSpinner = view.findViewById(R.id.service_spinner);
+        final Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
         mapFragmentButton = view.findViewById(R.id.go);
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userChoice = String.valueOf(servicesSpinner.getSelectedItem()).toLowerCase();
+                Log.d(TAG, "USERCHOICEonClick: " + userChoice);
+
+                String idk = getPassedTerm("hello");
+
+
+                businessIdSharedPreferences.saveUserInput(getPassedTerm(userChoice));
+                mListener.update(getPassedTerm(userChoice));
+                Log.d(TAG, "onClick:" + getPassedTerm(userChoice));
+
+                mListener.passBusinessSearch();
                 mListener.showMapFragment(businessesList);
 
 
@@ -97,7 +134,7 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
                 .fitCenter()
                 .circleCrop()
                 .into(imageView);
-        searchView.setOnQueryTextListener(this);
+
     }
 
 
@@ -110,6 +147,8 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+
     }
 
     @Override
@@ -118,29 +157,74 @@ public class MainFragment extends Fragment implements SearchView.OnQueryTextList
         mListener = null;
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        query = searchView.getQuery().toString();
-        if (query.length() > 0) {
-            businessIdSharedPreferences.saveUserInput(query);
-            mListener.passBusinessSearch();
 
-            Log.d(TAG, "onQueryTextSubmit: " + query);
+    public String getPassedTerm(String choice) {
+        String passedTerm = "";
+
+
+        if (choice.equals(CHOICEPET)) {
+            passedTerm = ANIMALS;
         }
-        return false;
-    }
+        if (choice.equals(CHOICEVET)) {
+            passedTerm = VETS;
+        }
+        if (choice.equals(CHOICEEMS)) {
+            passedTerm = EMERGENCY;
+        }
+        if (choice.equals(
+                CHOICEINSURANCE)) {
+            passedTerm = PET_INSURANCE;
+        }
+        if (choice.equals(CHOICETHERAPY)) {
+            passedTerm = PET_THERAPY;
+        }
+        if (choice.equals(CHOICEHOLISTIC)) {
+            passedTerm = HOLISTIC;
+        }
+        if (choice.equals(CHOICEHOSPICE)) {
+            passedTerm = CHOICEHOSPICE;
+        }
+        if (choice.equals(CHOICEHOSPITAL)) {
+            passedTerm = HOSPITAL;
+        }
+        if (choice.equals(CHOICESERVICES)) {
+            passedTerm = SERVICES;
+        }
+        if (choice.equals(CHOICETRAINING)) {
+            passedTerm = TRAINING;
+        }
+        if (choice.equals(CHOICETRANSPORTATION)) {
+            passedTerm = TRANSPORTATION;
+        }
+        if (choice.equals(CHOICEAQUARIUM)) {
+            passedTerm = AQUARIUM;
+        }
+        if (choice.equals(CHOICESTORES)) {
+            passedTerm = STORE;
+        }
 
-    /**
-     * do we amend, hospital or clinic to our search term here?
-     *
-     * @param newText
-     * @return
-     */
+//        HashMap<String, String> userSelections = new HashMap<>();
+//        userSelections.put(CHOICEPET, ANIMALS);
+//        userSelections.put(CHOICESTORES, STORE);
+//        userSelections.put(CHOICEAQUARIUM,AQUARIUM);
+//        userSelections.put(CHOICEEMS, EMERGENCY);
+//        userSelections.put(CHOICEHOSPICE,HOSPICE);
+//        userSelections.put(CHOICESERVICES, SERVICES);
+//        userSelections.put(CHOICETRAINING, TRAINING);
+//        userSelections.put(CHOICEINSURANCE, PET_INSURANCE);
+//        userSelections.put(CHOICEVET, VETS);
+//        userSelections.put(CHOICETHERAPY, PET_THERAPY);
+//        userSelections.put(CHOICEHOLISTIC, HOLISTIC);
+//        userSelections.put(CHOICEHOSPITAL, HOSPITAL);
+//        userSelections.put(CHOICETRANSPORTATION, TRANSPORTATION);
+//
+//        if (choice.equals(CHOICEPET)) {
+//            passedTerm = userSelections.get(CHOICEPET);
+//        }
 
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        return false;
+        Log.d(TAG, "getPassedTerm: " + passedTerm);
+        return passedTerm;
     }
 
 
