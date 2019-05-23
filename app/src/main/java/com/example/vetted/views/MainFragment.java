@@ -50,19 +50,19 @@ public class MainFragment extends Fragment {
     public static final String AQUARIUM = "aquarium services";
     public static final String STORE = "pet store";
 
-    private static final String CHOICEPET = "Pet Related Businesses";
-    private static final String CHOICEVET = "Veterinarians";
-    private static final String CHOICEEMS = "Emergency Pet Services";
-    private static final String CHOICEINSURANCE = "Pet Insurance";
-    private static final String CHOICETHERAPY = "Pet Therapy";
-    private static final String CHOICEHOLISTIC = "Holistic Pet Care";
-    private static final String CHOICEHOSPICE = "Hospice";
-    private static final String CHOICEHOSPITAL = "Animal Hospitals";
-    private static final String CHOICESERVICES = "General Pet Services";
-    private static final String CHOICETRAINING = "Animal Training";
-    private static final String CHOICETRANSPORTATION = "Animal Transportation";
-    private static final String CHOICEAQUARIUM = "Aquarium Services";
-    private static final String CHOICESTORES = "Pet Stores";
+    private static final String CHOICEPET = "pet related businesses";
+    private static final String CHOICEVET = "veterinarians";
+    private static final String CHOICEEMS = "emergency pet services";
+    private static final String CHOICEINSURANCE = "pet insurance";
+    private static final String CHOICETHERAPY = "pet therapy";
+    private static final String CHOICEHOLISTIC = "holistic pet care";
+    private static final String CHOICEHOSPICE = "hospice";
+    private static final String CHOICEHOSPITAL = "animal hospitals";
+    private static final String CHOICESERVICES = "general pet services";
+    private static final String CHOICETRAINING = "animal training";
+    private static final String CHOICETRANSPORTATION = "animal transportation";
+    private static final String CHOICEAQUARIUM = "aquarium services";
+    private static final String CHOICESTORES = "pet Stores";
 
     public static String userChoice;
 
@@ -154,7 +154,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+//        mListener = null;
     }
 
 
@@ -182,7 +182,7 @@ public class MainFragment extends Fragment {
             passedTerm = HOLISTIC;
         }
         if (choice.equals(CHOICEHOSPICE)) {
-            passedTerm = CHOICEHOSPICE;
+            passedTerm = HOSPICE;
         }
         if (choice.equals(CHOICEHOSPITAL)) {
             passedTerm = HOSPITAL;
