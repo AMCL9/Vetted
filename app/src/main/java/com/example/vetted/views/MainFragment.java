@@ -12,20 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
-import com.example.vetted.FragmentController.TermUpdate;
-import com.example.vetted.FragmentController.Update;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
-import com.example.vetted.modells.Businesses;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
 
 public class MainFragment extends Fragment {
