@@ -25,6 +25,7 @@ import com.example.vetted.controller.RecyclerViewViewholder;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.modells.Coordinates;
+import com.example.vetted.network.AnimalBusinessRepository;
 import com.example.vetted.network.RetrofitSingleton;
 import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public static ArrayList<Businesses> termRelateBusinesses;
     List<String> termArray = new ArrayList<>();
     Coordinates coordinates;
+    private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
      */
@@ -106,11 +108,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
     public void callBusinessSearch() {
-
-        Retrofit retrofit = RetrofitSingleton.getInstance();
-        YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(passTerm,  longitude, latitude, CATEGORIES);
-        businessSearchCall.enqueue(new Callback<BusinessSearch>() {
+        animalBusinessRepository.getAllBusinesses(getUserInput(), latitude, longitude, CATEGORIES, new Callback<BusinessSearch>() {
             @Override
             public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
@@ -160,12 +158,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
      * @param businessId
      */
     private void callBusinessDetails(final String businessId) {
-        RetrofitSingleton.getInstance()
-                .create(YelpServiceCall.class)
-                .getBusinessDetails(businessId)
-                .enqueue(new Callback<BusinessDetailWrapper>() {
-                    @Override
-                    public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
+    animalBusinessRepository.getBusinessDetails(businessId, new Callback<BusinessDetailWrapper>() {
+        @Override
+        public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
                         Log.d(TAG, "Business Details onResponse: " + response.body());
                         BusinessDetailWrapper businessDetailWrapper = response.body();
                         if (businessDetailWrapper != null) {
@@ -199,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private void callAutoCorrect() {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
-                .getResults("delis", -73.935242, 40.730610)
+                .getResults("delis", 40.730610,-73.935242 )
                 .enqueue(new Callback<AutoComplete>() {
                     @Override
                     public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
