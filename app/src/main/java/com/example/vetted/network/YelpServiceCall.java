@@ -17,7 +17,7 @@ public interface YelpServiceCall {
 
     @Headers({"Authorization:Bearer " + token})
     @GET("businesses/search")
-    Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("longitude") double longitude, @Query("latitude") double latitude);
+    Call<BusinessSearch> getBusinessSearch(@Query("term") String term, @Query("latitude") double latitude, @Query("longitude") double longitude );
 
     @Headers({"Authorization:Bearer " + token})
     @GET("businesses/{id}")
@@ -25,7 +25,7 @@ public interface YelpServiceCall {
 
     @Headers({"Authorization:Bearer " + token})
     @GET("autocomplete")
-    Call<AutoComplete> getResults(@Query("text") String text, @Query("longitude") double longitude, @Query("latitude") double latitude);
+    Call<AutoComplete> getResults(@Query("text") String text, @Query("latitude") double latitude, @Query("longitude") double longitude );
 
     @Headers({"Authorization:Bearer " + token})
     @GET("businesses/{id}/reviews")
