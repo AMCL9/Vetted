@@ -25,6 +25,7 @@ import com.example.vetted.controller.RecyclerViewViewholder;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.modells.Coordinates;
+import com.example.vetted.network.AnimalBusinessRepository;
 import com.example.vetted.network.RetrofitSingleton;
 import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public void callBusinessSearch() {
         Retrofit retrofit = RetrofitSingleton.getInstance();
         YelpServiceCall yelpServiceAPI = retrofit.create(YelpServiceCall.class);
-        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(getUserInput(), longitude, latitude);
+        final Call<BusinessSearch> businessSearchCall = yelpServiceAPI.getBusinessSearch(getUserInput(), latitude, longitude);
         businessSearchCall.enqueue(new Callback<BusinessSearch>() {
             @Override
             public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private void callAutoCorrect() {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
-                .getResults("delis", -73.935242, 40.730610)
+                .getResults("delis", 40.730610,-73.935242 )
                 .enqueue(new Callback<AutoComplete>() {
                     @Override
                     public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
