@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
     public void callBusinessSearch() {
+
         animalBusinessRepository.getAllBusinesses(getUserInput(), latitude, longitude, CATEGORIES, new Callback<BusinessSearch>() {
             @Override
             public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
