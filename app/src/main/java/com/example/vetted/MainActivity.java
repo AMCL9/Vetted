@@ -36,11 +36,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -56,13 +53,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private Location lastLocation;
     private double longitude;
     private double latitude;
-    public static String identity = "";
     private static String userInput = "";
-    public static Double businessLat = 0.0;
-    public static Double businessLong = 0.0;
+    public static final String CATEGORIES = "petservices";
     public static ArrayList<Businesses> termRelateBusinesses;
-    List<String> termArray = new ArrayList<>();
-    Coordinates coordinates;
+
     private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
     /**
      * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
@@ -71,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
-    Fragmentinterface fragmentinterface;
+
 
 
     @Override
@@ -100,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_LOCATION);
         } else {
 
+
             callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
             callAutoCorrect();
             callReviews("WavvLdfdP6g8aZTtbBQHTw");
@@ -109,10 +104,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
     public void callBusinessSearch() {
-        animalBusinessRepository.getAllBusinesses(getUserInput(), latitude, longitude, new Callback<BusinessSearch>() {
+
+        animalBusinessRepository.getAllBusinesses(getUserInput(), latitude, longitude, CATEGORIES, new Callback<BusinessSearch>() {
             @Override
-            public void onResponse(Call<BusinessSearch> call, Response<BusinessSearch> response) {
-                Log.d(TAG, "Business Search onResponse: " + response.body());
+            public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
+                Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
                 BusinessSearch businessSearch = response.body();
 
 
@@ -122,16 +118,18 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         termRelateBusinesses = new ArrayList<>();
 
                         Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
+                        Log.d(TAG, "onResponse: " +b.getCoordinates().getLongitude().toString());
                         // if you check the logcat, you will see there the latitude for this business.
 //
 //                        businessIdSharedPreferences.saveBusinessID(identity, businessLat, businessLong);
                         termRelateBusinesses.add(b);
                         RecyclerViewViewholder.termResults.add(b);
+
                         Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
 
 
 
-                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).toString());
+                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).getName());
                         /**
                          * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
                          * calls
