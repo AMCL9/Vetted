@@ -22,10 +22,10 @@ public class AnimalBusinessRepository {
                 .enqueue(callback);
     }
 
-    public void getAllBusinesses(@NonNull String searchTerm, double latitude, double longitude, @NonNull Callback<BusinessSearch> callback) {
+    public void getAllBusinesses(@NonNull String searchTerm, double latitude, double longitude, String categories, @NonNull Callback<BusinessSearch> callback) {
 
 
-        yelpService.getBusinessSearch(searchTerm, latitude, longitude)
+        yelpService.getBusinessSearch(searchTerm, latitude, longitude, categories)
                 .enqueue(callback);
 
     }
