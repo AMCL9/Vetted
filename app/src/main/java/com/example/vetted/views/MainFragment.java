@@ -17,25 +17,20 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.vetted.FragmentController.Fragmentinterface;
-import com.example.vetted.FragmentController.TermUpdate;
-import com.example.vetted.FragmentController.Update;
 import com.example.vetted.R;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.Businesses;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 
 public class MainFragment extends Fragment {
     private Button mapFragmentButton;
     private ImageView imageView;
-    private TextView textView;
     BusinessIdSharedPreferences businessIdSharedPreferences;
-    public ArrayList<Businesses> businessesList;
-    private static final String TAG = "WHY ARE U NULL?";
 
+    private static final String TAG = "WHY REUNULL?";
     public static final String ANIMALS = "animals";
     public static final String VETS = "veterinarian";
     public static final String EMERGENCY = "emergency";
@@ -66,7 +61,7 @@ public class MainFragment extends Fragment {
 
     public static String userChoice;
 
-    String word = "word";
+
 
 
     private Fragmentinterface mListener;
@@ -79,7 +74,6 @@ public class MainFragment extends Fragment {
     public static MainFragment newInstance() {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -90,7 +84,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
-            businessIdSharedPreferences = new BusinessIdSharedPreferences(Objects.requireNonNull(getActivity()).getSharedPreferences(BusinessIdSharedPreferences.USER_INPUT, Context.MODE_PRIVATE));
+//            businessIdSharedPreferences = new BusinessIdSharedPreferences(Objects.requireNonNull(getActivity()).getSharedPreferences(BusinessIdSharedPreferences.USER_INPUT, Context.MODE_PRIVATE));
 
 
         }
@@ -116,14 +110,14 @@ public class MainFragment extends Fragment {
                 userChoice = String.valueOf(servicesSpinner.getSelectedItem()).toLowerCase();
                 Log.d(TAG, "USERCHOICEonClick: " + userChoice);
 
-                String idk = getPassedTerm("hello");
 
 
                 businessIdSharedPreferences.saveUserInput(getPassedTerm(userChoice));
                 mListener.update(getPassedTerm(userChoice));
+                mListener.showMapFragment();
                 Log.d(TAG, "onClick:" + getPassedTerm(userChoice));
 
-                mListener.passBusinessSearch();
+
 
 
 
@@ -203,25 +197,6 @@ public class MainFragment extends Fragment {
         if (choice.equals(CHOICESTORES)) {
             passedTerm = STORE;
         }
-
-//        HashMap<String, String> userSelections = new HashMap<>();
-//        userSelections.put(CHOICEPET, ANIMALS);
-//        userSelections.put(CHOICESTORES, STORE);
-//        userSelections.put(CHOICEAQUARIUM,AQUARIUM);
-//        userSelections.put(CHOICEEMS, EMERGENCY);
-//        userSelections.put(CHOICEHOSPICE,HOSPICE);
-//        userSelections.put(CHOICESERVICES, SERVICES);
-//        userSelections.put(CHOICETRAINING, TRAINING);
-//        userSelections.put(CHOICEINSURANCE, PET_INSURANCE);
-//        userSelections.put(CHOICEVET, VETS);
-//        userSelections.put(CHOICETHERAPY, PET_THERAPY);
-//        userSelections.put(CHOICEHOLISTIC, HOLISTIC);
-//        userSelections.put(CHOICEHOSPITAL, HOSPITAL);
-//        userSelections.put(CHOICETRANSPORTATION, TRANSPORTATION);
-//
-//        if (choice.equals(CHOICEPET)) {
-//            passedTerm = userSelections.get(CHOICEPET);
-//        }
 
 
         Log.d(TAG, "getPassedTerm: " + passedTerm);

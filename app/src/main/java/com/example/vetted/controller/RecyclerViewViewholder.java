@@ -10,8 +10,6 @@ import com.example.vetted.MainActivity;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
 
-import com.example.vetted.views.RecyclerViewFragment;
-
 import java.util.List;
 
 

@@ -31,7 +31,6 @@ import com.example.vetted.network.YelpServiceCall;
 import com.example.vetted.views.DetailsFragment;
 import com.example.vetted.views.MainFragment;
 import com.example.vetted.views.MapFragment;
-import com.example.vetted.views.RecyclerViewFragment;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +41,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements Fragmentinterface, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -120,24 +118,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     List<Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         termRelateBusinesses = new ArrayList<>();
-
                         Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
                         Log.d(TAG, "onResponse: " +b.getCoordinates().getLongitude().toString());
-                        // if you check the logcat, you will see there the latitude for this business.
-//
-//                        businessIdSharedPreferences.saveBusinessID(identity, businessLat, businessLong);
                         termRelateBusinesses.add(b);
                         RecyclerViewViewholder.termResults.add(b);
-
                         Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
-
-
-
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).getName());
-                        /**
-                         * going to use this list for the recycler view. we must also find a way to use a particular identity to make other network
-                         * calls
-                         */
+
                     }
                 }
 
@@ -245,22 +232,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMapFragment(ArrayList<Businesses> termRelateBusinesses) {
+    public void showMapFragment() {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance(termRelateBusinesses))
+                .replace(R.id.fragment_container, MapFragment.newInstance())
                 .addToBackStack(null)
                 .commit();
 
     }
 
-    @Override
-    public void showRecyclerViewFragment(ArrayList<Businesses> businessesList) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, RecyclerViewFragment.newInstance(businessesList))
-                .addToBackStack(null)
-                .commit();
 
-    }
 
     @Override
     public void showDetailsFragment() {
