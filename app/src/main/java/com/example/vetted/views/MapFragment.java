@@ -25,21 +25,17 @@ import java.util.ArrayList;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
     private RecyclerView spinnerMenuSelectionRecyclerView;
-    ArrayList <Businesses> termRelatedBusinesses = new ArrayList<>();
-    ArrayList <Businesses> newBusinesses = new ArrayList<>();
+    ArrayList<Businesses> termRelatedBusinesses = new ArrayList<>();
+    ArrayList<Businesses> newBusinesses = new ArrayList<>();
     private PetBusinessAdapter petBusinessAdapter;
     private RecyclerView.LayoutManager layoutManager;
     private Fragmentinterface fragmentinterface;
-
     private static final String LOGTAG = "TAGTAGTAG";
     public static final String BUSINESS_LIST = "businesslist";
 
 
-
-
-    AnimalBusinessRepository animalBusinessRepository;
-
-    public MapFragment() {}
+    public MapFragment() {
+    }
 
     public static MapFragment newInstance(ArrayList<Businesses> Businesses) {
         MapFragment fragment = new MapFragment();
@@ -55,13 +51,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         if (getArguments() != null) {
             termRelatedBusinesses = getArguments().getParcelableArrayList(BUSINESS_LIST);
-            Log.d("DINGALINGHEAD", "onCreate: " + termRelatedBusinesses.get(0).getName());
-            Log.d("WEPA", "onCreate: " + termRelatedBusinesses.toString());
+            Log.d(LOGTAG, "onCreate: " + termRelatedBusinesses.get(0).getName());
+            Log.d(LOGTAG, "onCreate: " + termRelatedBusinesses.toString());
 
 
-
-            }
         }
+    }
 
 
     @Override
@@ -89,15 +84,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         spinnerMenuSelectionRecyclerView = view.findViewById(R.id.business_recyclerView);
-        layoutManager = new GridLayoutManager(getContext(),1);
+        layoutManager = new GridLayoutManager(getContext(), 1);
         spinnerMenuSelectionRecyclerView.setLayoutManager(layoutManager);
         petBusinessAdapter = new PetBusinessAdapter(newBusinesses);
         spinnerMenuSelectionRecyclerView.setAdapter(petBusinessAdapter);
         newBusinesses.addAll(termRelatedBusinesses);
         petBusinessAdapter.setBusinesses(newBusinesses);
         spinnerMenuSelectionRecyclerView.setAdapter(petBusinessAdapter);
-
-
 
 
     }

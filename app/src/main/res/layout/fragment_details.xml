@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".views.DetailsFragment"
-    android:background="@color/colorGreenMain">
+    >
 
 
     <android.support.design.widget.AppBarLayout
@@ -28,7 +28,7 @@
             android:fitsSystemWindows="true"
             app:statusBarScrim="@android:color/transparent"
             app:contentScrim="@android:color/transparent"
-            android:background="@color/colorBlack">
+            >
 
             <ImageView
                 android:id="@+id/backdrop"
@@ -113,6 +113,19 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/url"
+        app:layout_constraintBottom_toTopOf="@id/price"/>
+
+    <TextView
+        android:id="@+id/price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/viga_regular"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rating"
         app:layout_constraintBottom_toTopOf="@id/open"/>
 
 

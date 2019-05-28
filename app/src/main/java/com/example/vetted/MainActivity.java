@@ -60,8 +60,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
-    private String specificBusinessId =" ";
+    private String specificBusinessId = " ";
+    String image;
+    String[] otherImages;
+    String name;
+    String alias;
+    String phoneNumber;
+    String rating;
 
+    Boolean open;
+    String price;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         } else {
 
 
-
             callAutoCorrect();
             callReviews("WavvLdfdP6g8aZTtbBQHTw");
 
@@ -107,17 +115,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
                 BusinessSearch businessSearch = response.body();
 
-                Log.d(TAG, "lat "+userLat);
-                Log.d(TAG, "lon "+ userLon);
-                Log.d(TAG, "onResponse: "+userInput);
+                Log.d(TAG, "lat " + userLat);
+                Log.d(TAG, "lon " + userLon);
+                Log.d(TAG, "onResponse: " + userInput);
 
 
                 if (businessSearch != null) {
-                    ArrayList <Businesses> businessList = businessSearch.getBusinesses();
+                    ArrayList<Businesses> businessList = businessSearch.getBusinesses();
 
                     newBusinesses.addAll(businessList);
                     Log.d(TAG, "onResponse: " + newBusinesses.get(5).getName());
-                    Log.d(TAG, "onResponse: " +newBusinesses.get(2).getName());
+                    Log.d(TAG, "onResponse: " + newBusinesses.get(2).getName());
                 }
                 showMapFragment(newBusinesses);
 
@@ -139,44 +147,47 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
      * @param businessId
      */
     private void callBusinessDetails(final String businessId) {
-    animalBusinessRepository.getBusinessDetails(businessId, new Callback<BusinessDetailWrapper>() {
-        @Override
-        public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
-                        Log.d(TAG, "Business Details onResponse: " + response.body());
-                        BusinessDetailWrapper businessDetailWrapper = response.body();
-                        if (businessDetailWrapper != null) {
-                            Log.d(TAG, "onResponse: "+businessDetailWrapper.getReview_count());
-                           String image = businessDetailWrapper.getImage_url();
-                           String [] otherImages = businessDetailWrapper.getPhotos();
-                           String name = businessDetailWrapper.getName();
-                           String alias = businessDetailWrapper.getAlias();
-                           String phoneNumber = businessDetailWrapper.getPhone();
-                           String rating = businessDetailWrapper.getRating();
-                           Hours[] hours =businessDetailWrapper.getHours();
-                           Boolean open = hours[0].getIs_open_now();
-                           String price = businessDetailWrapper.getPrice();
-                           String url = businessDetailWrapper.getUrl();
-
-                            showDetailsFragment(image,otherImages,name,alias,phoneNumber,
-                                    rating, open, price, url);
+        animalBusinessRepository.getBusinessDetails(businessId, new Callback<BusinessDetailWrapper>() {
+            @Override
+            public void onResponse(Call<BusinessDetailWrapper> call, Response<BusinessDetailWrapper> response) {
+                Log.d(TAG, "Business Details onResponse: " + response.body());
+                BusinessDetailWrapper businessDetailWrapper = response.body();
+                if (businessDetailWrapper != null) {
+                    Log.d(TAG, "onResponse: " + businessDetailWrapper.getReview_count());
+                    image = businessDetailWrapper.getImage_url();
+                    otherImages = businessDetailWrapper.getPhotos();
+                    name = businessDetailWrapper.getName();
+                    alias = businessDetailWrapper.getAlias();
+                    phoneNumber = businessDetailWrapper.getPhone();
+                    rating = businessDetailWrapper.getRating();
+                    Hours[] hours = businessDetailWrapper.getHours();
+                    open = hours[0].getIs_open_now();
+                    price = businessDetailWrapper.getPrice();
+                    url = businessDetailWrapper.getUrl();
 
 
-                        }
-                    }
+                    Log.d(TAG, "onResponse: " + name);
 
-                    @Override
-                    public void onFailure(Call<BusinessDetailWrapper> call, Throwable t) {
-                        Log.d(TAG, "Business Details onFailure:" + t.getMessage());
 
-                    }
-                });
+
+
+                }showDetailsFragment(image, otherImages, name, alias, phoneNumber,
+                        rating, open, price, url);
+            }
+
+            @Override
+            public void onFailure(Call<BusinessDetailWrapper> call, Throwable t) {
+                Log.d(TAG, "Business Details onFailure:" + t.getMessage());
+
+            }
+        });
 
     }
 
     private void callAutoCorrect() {
         RetrofitSingleton.getInstance()
                 .create(YelpServiceCall.class)
-                .getResults("delis", 40.730610,-73.935242 )
+                .getResults("delis", 40.730610, -73.935242)
                 .enqueue(new Callback<AutoComplete>() {
                     @Override
                     public void onResponse(Call<AutoComplete> call, Response<AutoComplete> response) {
@@ -235,15 +246,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
 
-
     @Override
-    public void showDetailsFragment(String image, String [] otherImages, String name,
+    public void showDetailsFragment(String image, String[] otherImages, String name,
                                     String alias, String phoneNumber, String rating,
                                     Boolean open, String price, String url) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DetailsFragment.newInstance(image, otherImages,name,
-                                                                            alias, phoneNumber, rating,
-                                                                            open, price, url))
+                .replace(R.id.fragment_container, DetailsFragment.newInstance(image, otherImages, name,
+                                                                             alias, phoneNumber, rating,
+                                                                             open, price, url))
                 .addToBackStack(null)
                 .commit();
 
@@ -344,12 +354,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                             if (location != null) {
                                 lastLocation = location;
                                 longitude = lastLocation.getLongitude();
-                                Log.d(TAG, "FPConSuccess: "+lastLocation.getLatitude());
-                                Log.d(TAG, "FPConSuccess: "+lastLocation.getLongitude());
+                                Log.d(TAG, "FPConSuccess: " + lastLocation.getLatitude());
+                                Log.d(TAG, "FPConSuccess: " + lastLocation.getLongitude());
                                 latitude = lastLocation.getLatitude();
                                 getLat(latitude);
                                 getLon(longitude);
-
 
 
                             } else {
@@ -365,27 +374,28 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         }
     }
 
-   private String getUserInput () {
-       sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
-       if (sharedPreferences != null) {
-           userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, " ");
+    private String getUserInput() {
+        sharedPreferences = getSharedPreferences(BusinessIdSharedPreferences.SHARED_PREF_KEY, MODE_PRIVATE);
+        if (sharedPreferences != null) {
+            userInput = sharedPreferences.getString(BusinessIdSharedPreferences.USER_INPUT, " ");
 
 
-       }
-       return userInput;
+        }
+        return userInput;
 
-   }
+    }
 
-       private double getLat (final double lat) {
+    private double getLat(final double lat) {
         userLat = lat;
 
-            return userLat;
-       }
-       private double getLon(final double lon) {
-        userLon =lon;
+        return userLat;
+    }
+
+    private double getLon(final double lon) {
+        userLon = lon;
         return userLon;
-       }
-   }
+    }
+}
 
 
 
