@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface Fragmentinterface {
   void showMainFragment ();
-  void showMapFragment ();
+  void showMapFragment (ArrayList<Businesses> list);
   void showDetailsFragment ();
   void passBusinessSearch ();
   void passID (String id);

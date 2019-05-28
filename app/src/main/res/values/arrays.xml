@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="categories">
-        <item>Pet Related Businesses</item>
         <item>Veterinarians</item>
         <item>Emergency Pet Services</item>
         <item>Pet Insurance</item>

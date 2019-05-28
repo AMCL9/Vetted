@@ -1,4 +1,4 @@
-package com.example.vetted.controller;
+package com.example.vetted.RecyclerView;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,20 +10,20 @@ import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewholder> {
-    List<Businesses> objects;
-    private Fragmentinterface listener;
+public class PetBusinessAdapter extends RecyclerView.Adapter<RecyclerViewViewholder> {
+    private List<Businesses> businesses;
 
-    public RecyclerViewAdapter(List<Businesses> objects, Fragmentinterface listener) {
-        this.objects = objects;
-        this.listener = listener;
+
+    public PetBusinessAdapter(ArrayList<Businesses> businesses) {
+        this.businesses = businesses;
     }
 
-    public void setObjects(List<Businesses> objects) {
-        this.objects = objects;
+    public void setBusinesses(ArrayList<Businesses> businesses) {
+        this.businesses = businesses;
         notifyDataSetChanged();
     }
 
@@ -31,17 +31,17 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewViewho
     @Override
     public RecyclerViewViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.list_itemview, viewGroup, false);
-        return new RecyclerViewViewholder(view, listener);
+                .inflate(R.layout.business_itemview, viewGroup, false);
+        return new RecyclerViewViewholder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewViewholder recyclerViewViewholder, int i) {
-        recyclerViewViewholder.onBind(objects.get(i), listener);
+        recyclerViewViewholder.onBind(businesses.get(i));
     }
 
     @Override
     public int getItemCount() {
-        return objects.size();
+        return businesses.size();
     }
 }

@@ -43,6 +43,13 @@ public class BusinessIdSharedPreferences {
         this.sharedPreferences = sharedPreferences;
     }
 
+    public void saveUserLatLon(double lat, double lon){
+        sharedPreferences.edit()
+                .putString(LATITUDE_KEY, Double.toString(lat))
+                .putString(LONGITUDE_KEY, Double.toString(lon))
+                .apply();
+    }
+
 
     public void saveBusinessID(String identifier, double lat, double lon) {
         sharedPreferences.edit()

@@ -21,7 +21,6 @@ import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
 import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
-import com.example.vetted.controller.RecyclerViewViewholder;
 import com.example.vetted.modells.BusinessSearch;
 import com.example.vetted.modells.Businesses;
 import com.example.vetted.modells.Coordinates;
@@ -36,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -49,22 +49,16 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private SharedPreferences sharedPreferences;
     private BusinessIdSharedPreferences businessIdSharedPreferences;
     private Location lastLocation;
-    private double longitude;
-    private double latitude;
+    public static double longitude, latitude;
+    public static double userLat, userLon = 0.0;
     private static String userInput = "";
-    private static String passTerm = "";
-    public static Double businessLat = 0.0;
-    public static Double businessLong = 0.0;
+    private final String TAG = "BARKBARK";
+    public static final String LIST = "list";
     public static final String CATEGORIES = "petservices";
     public static ArrayList<Businesses> termRelateBusinesses;
-    List<String> termArray = new ArrayList<>();
+    private ArrayList<Businesses> newBusinesses = new ArrayList<>();
     Coordinates coordinates;
     private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
-    /**
-     * after we search we have to pass the term they've searched to the mainactivity from the mainfragment and input it for the search
-     */
-
-    private final String TAG = "BARKBARK";
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
 
@@ -107,26 +101,33 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
     public void callBusinessSearch() {
 
-        animalBusinessRepository.getAllBusinesses(getUserInput(), latitude, longitude, CATEGORIES, new Callback<BusinessSearch>() {
+        animalBusinessRepository.getAllBusinesses(userInput, userLat, userLon, CATEGORIES, new Callback<BusinessSearch>() {
+
             @Override
             public void onResponse(@NonNull Call<BusinessSearch> call, @NonNull Response<BusinessSearch> response) {
                 Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
                 BusinessSearch businessSearch = response.body();
 
+                Log.d(TAG, "lat "+latitude);
+                Log.d(TAG, "lon "+ longitude);
+
 
                 if (businessSearch != null) {
-                    List<Businesses> businessList = businessSearch.getBusinesses();
+                    ArrayList <Businesses> businessList = businessSearch.getBusinesses();
                     for (Businesses b : businessList) {
                         termRelateBusinesses = new ArrayList<>();
+                        termRelateBusinesses.add(b);
+
+
+
                         Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
                         Log.d(TAG, "onResponse: " +b.getCoordinates().getLongitude().toString());
-                        termRelateBusinesses.add(b);
-                        RecyclerViewViewholder.termResults.add(b);
-                        Log.d(TAG, "BOSSY onResponse: " + RecyclerViewViewholder.termResults.get(0).getName());
                         Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).getName());
 
                     }
+                    newBusinesses.addAll(termRelateBusinesses);
                 }
+                showMapFragment(newBusinesses);
 
             }
 
@@ -232,9 +233,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void showMapFragment() {
+    public void showMapFragment(ArrayList<Businesses> termRelatedBusinesses) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, MapFragment.newInstance())
+                .replace(R.id.fragment_container, MapFragment.newInstance(termRelatedBusinesses))
                 .addToBackStack(null)
                 .commit();
 
@@ -264,7 +265,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
     @Override
     public String update(String passTerm) {
-        return passTerm;
+        userInput = passTerm;
+        return userInput;
 
     }
 
@@ -331,28 +333,17 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
                     final FusedLocationProviderClient fpc = LocationServices.getFusedLocationProviderClient(this);
-
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat
-                            .checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return;
-                    }
                     fpc.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
                             if (location != null) {
                                 lastLocation = location;
                                 longitude = lastLocation.getLongitude();
-                                Log.d(TAG, "onSuccess: "+lastLocation.getLatitude());
-                                Log.d(TAG, "onSuccess: "+lastLocation.getLongitude());
+                                Log.d(TAG, "FPConSuccess: "+lastLocation.getLatitude());
+                                Log.d(TAG, "FPConSuccess: "+lastLocation.getLongitude());
                                 latitude = lastLocation.getLatitude();
-                                businessIdSharedPreferences.saveUserLocation(latitude, longitude);
+                                getLat(latitude);
+                                getLon(longitude);
 
 
 
@@ -380,5 +371,16 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
    }
 
+       private double getLat (final double lat) {
+        userLat = lat;
 
-}
+            return userLat;
+       }
+       private double getLon(final double lon) {
+        userLon =lon;
+        return userLon;
+       }
+   }
+
+
+

@@ -1,6 +1,9 @@
 package com.example.vetted.modells;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BusinessSearch{
@@ -12,9 +15,9 @@ public class BusinessSearch{
   private Region region;
   @SerializedName("businesses")
   @Expose
-  private List<Businesses> businesses;
+  private ArrayList<Businesses> businesses;
 
-  public BusinessSearch(Integer total,Region region,List<Businesses> businesses){
+  public BusinessSearch(Integer total,Region region,ArrayList<Businesses> businesses){
    this.total=total;
    this.region=region;
    this.businesses=businesses;
@@ -31,10 +34,10 @@ public class BusinessSearch{
   public Region getRegion(){
    return region;
   }
-  public void setBusinesses(List<Businesses> businesses){
+  public void setBusinesses(ArrayList<Businesses> businesses){
    this.businesses=businesses;
   }
-  public List<Businesses> getBusinesses(){
+  public ArrayList<Businesses> getBusinesses(){
    return businesses;
   }
 }

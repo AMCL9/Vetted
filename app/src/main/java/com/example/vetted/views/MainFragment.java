@@ -31,7 +31,6 @@ public class MainFragment extends Fragment {
     BusinessIdSharedPreferences businessIdSharedPreferences;
 
     private static final String TAG = "WHY REUNULL?";
-    public static final String ANIMALS = "animals";
     public static final String VETS = "veterinarian";
     public static final String EMERGENCY = "emergency";
     public static final String PET_INSURANCE = "pet insurance";
@@ -45,7 +44,7 @@ public class MainFragment extends Fragment {
     public static final String AQUARIUM = "aquarium services";
     public static final String STORE = "pet store";
 
-    private static final String CHOICEPET = "pet related businesses";
+
     private static final String CHOICEVET = "veterinarians";
     private static final String CHOICEEMS = "emergency pet services";
     private static final String CHOICEINSURANCE = "pet insurance";
@@ -112,9 +111,9 @@ public class MainFragment extends Fragment {
 
 
 
-                businessIdSharedPreferences.saveUserInput(getPassedTerm(userChoice));
+//                businessIdSharedPreferences.saveUserInput(getPassedTerm(userChoice));
                 mListener.update(getPassedTerm(userChoice));
-                mListener.showMapFragment();
+                mListener.passBusinessSearch();
                 Log.d(TAG, "onClick:" + getPassedTerm(userChoice));
 
 
@@ -156,10 +155,6 @@ public class MainFragment extends Fragment {
     public String getPassedTerm(String choice) {
         String passedTerm = "";
 
-
-        if (choice.equals(CHOICEPET)) {
-            passedTerm = ANIMALS;
-        }
         if (choice.equals(CHOICEVET)) {
             passedTerm = VETS;
         }
