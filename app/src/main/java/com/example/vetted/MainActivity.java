@@ -20,6 +20,7 @@ import com.example.vetted.AutoComplete.AutoComplete;
 import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
 import com.example.vetted.BusinessDetailsModels.Hours;
 import com.example.vetted.BusinessReviews.ReviewWrapper;
+import com.example.vetted.BusinessReviews.Reviews;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
 import com.example.vetted.modells.BusinessSearch;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     public static final String CATEGORIES = "petservices";
     public static ArrayList<Businesses> termRelateBusinesses;
     private ArrayList<Businesses> newBusinesses = new ArrayList<>();
+    private static ArrayList <Reviews> specificBusinessReviews = new ArrayList<>();
     Coordinates coordinates;
     private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
@@ -100,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
             callAutoCorrect();
-            callReviews("WavvLdfdP6g8aZTtbBQHTw");
+
 
         }
     }
@@ -167,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
                     Log.d(TAG, "onResponse: " + name);
+                    callReviews(specificBusinessId);
 
 
 
@@ -217,6 +220,14 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                     @Override
                     public void onResponse(Call<ReviewWrapper> call, Response<ReviewWrapper> response) {
                         Log.d(TAG, "Reviews onResponse: " + response.body());
+
+                        ReviewWrapper reviews = response.body();
+                        if (reviews != null) {
+                            ArrayList<Reviews> businessReviews = reviews.getReviews();
+                            specificBusinessReviews.addAll(businessReviews);
+
+
+                        }
 
                     }
 

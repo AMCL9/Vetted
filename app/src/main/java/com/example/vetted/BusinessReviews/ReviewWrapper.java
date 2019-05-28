@@ -1,11 +1,13 @@
 package com.example.vetted.BusinessReviews;
 
+import java.util.ArrayList;
+
 public class ReviewWrapper {
     private String total;
 
     private String[] possible_languages;
 
-    private Reviews[] reviews;
+    private ArrayList <Reviews> reviews;
 
     public String getTotal ()
     {
@@ -27,12 +29,12 @@ public class ReviewWrapper {
         this.possible_languages = possible_languages;
     }
 
-    public Reviews[] getReviews ()
+    public ArrayList <Reviews> getReviews ()
     {
         return reviews;
     }
 
-    public void setReviews (Reviews[] reviews)
+    public void setReviews (ArrayList <Reviews> reviews)
     {
         this.reviews = reviews;
     }

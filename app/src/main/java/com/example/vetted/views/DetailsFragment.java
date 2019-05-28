@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
+import com.example.vetted.ReviewRecyclerView.ReviewAdapter;
+import com.example.vetted.modells.Businesses;
+
+import java.util.ArrayList;
 
 
 public class DetailsFragment extends Fragment {
@@ -42,6 +48,10 @@ public class DetailsFragment extends Fragment {
     private ImageView businessImageView;
 
     private RecyclerView reviewRecyclerView;
+    private ArrayList <Businesses> reviews = new ArrayList<>();
+    private ReviewAdapter reviewAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    Fragmentinterface fragmentinterface;
 
     public DetailsFragment() {
 
@@ -113,5 +123,12 @@ public class DetailsFragment extends Fragment {
             openView= view.findViewById(R.id.open);
 
         }
+
+        reviewRecyclerView = view.findViewById(R.id.review_recyclerView);
+        layoutManager = new GridLayoutManager(getContext(), 1);
+        reviewRecyclerView.setLayoutManager(layoutManager);
+//        reviewAdapter = new ReviewAdapter(reviews);
+//        reviewRecyclerView.setAdapter(reviewAdapter);
+
     }
 }
