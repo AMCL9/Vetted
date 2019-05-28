@@ -35,8 +35,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     private AnimalBusinessRepository animalBusinessRepository = new AnimalBusinessRepository();
     public static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static int SPLASH_TIME_OUT = 4000;
-
+    private String specificBusinessId =" ";
 
 
     @Override
@@ -91,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
         } else {
 
 
-            callBusinessDetails("WavvLdfdP6g8aZTtbBQHTw");
+
             callAutoCorrect();
             callReviews("WavvLdfdP6g8aZTtbBQHTw");
 
@@ -114,18 +112,10 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
                 if (businessSearch != null) {
                     ArrayList <Businesses> businessList = businessSearch.getBusinesses();
-                    for (Businesses b : businessList) {
-                        termRelateBusinesses = new ArrayList<>();
-                        termRelateBusinesses.add(b);
 
-
-
-                        Log.d(TAG, "onResponse: " + b.getCoordinates().getLatitude().toString());
-                        Log.d(TAG, "onResponse: " +b.getCoordinates().getLongitude().toString());
-                        Log.d(TAG, "business term list onResponse: " + termRelateBusinesses.get(0).getName());
-
-                    }
-                    newBusinesses.addAll(termRelateBusinesses);
+                    newBusinesses.addAll(businessList);
+                    Log.d(TAG, "onResponse: " + newBusinesses.get(5).getName());
+                    Log.d(TAG, "onResponse: " +newBusinesses.get(2).getName());
                 }
                 showMapFragment(newBusinesses);
 
@@ -153,20 +143,8 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         Log.d(TAG, "Business Details onResponse: " + response.body());
                         BusinessDetailWrapper businessDetailWrapper = response.body();
                         if (businessDetailWrapper != null) {
-                            businessIdSharedPreferences.saveBusinessDetails(
-                                    businessDetailWrapper.getName(),
-                                    businessDetailWrapper.getUrl(),
-                                    businessDetailWrapper.getAlias(),
-                                    businessDetailWrapper.getId(),
-                                    businessDetailWrapper.getCoordinates(),
-                                    businessDetailWrapper.getCategories(),
-                                    businessDetailWrapper.getIs_closed(),
-                                    businessDetailWrapper.getHours(),
-                                    businessDetailWrapper.getRating(),
+                            Log.d(TAG, "onResponse: "+businessDetailWrapper.getReview_count());
 
-                                    businessDetailWrapper.getImage_url(),
-                                    businessDetailWrapper.getRating(),
-                                    businessDetailWrapper.getPrice());
 //
                         }
                     }
@@ -259,7 +237,15 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     }
 
     @Override
-    public void passID(String id) {
+    public void passBusiDetails() {
+        callBusinessDetails(specificBusinessId);
+
+    }
+
+    @Override
+    public String passID(String id) {
+        specificBusinessId = id;
+        return specificBusinessId;
 
     }
 

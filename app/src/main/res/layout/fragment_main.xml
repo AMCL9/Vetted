@@ -29,7 +29,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textSize="32sp"
         android:textStyle="bold"
-        android:fontFamily="cursive"
+       android:fontFamily="@font/viga_regular"
         android:textColor="@color/colorWhite"
         app:layout_constraintTop_toBottomOf="@id/animal_main_view"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +46,7 @@
         android:text="@string/main_frag_text_2"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         android:textSize="32sp"
-        android:fontFamily="cursive"
+        android:fontFamily="@font/viga_regular"
         android:textStyle="bold"
         android:textColor="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -57,6 +57,7 @@
 
     <Spinner
         android:id="@+id/service_spinner"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"

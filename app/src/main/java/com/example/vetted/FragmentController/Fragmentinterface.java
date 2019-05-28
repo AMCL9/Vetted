@@ -10,8 +10,10 @@ public interface Fragmentinterface {
   void showMapFragment (ArrayList<Businesses> list);
   void showDetailsFragment ();
   void passBusinessSearch ();
-  void passID (String id);
+  void passBusiDetails ();
+  String passID (String id);
   String update (String string);
+
 
 
 }

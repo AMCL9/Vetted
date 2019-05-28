@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorGreenMain</item>
         <item name="colorPrimaryDark">@color/colorBlack</item>
         <item name="colorAccent">@color/colorGreenMain</item>
+        <item name="spinnerStyle">@color/colorWhite</item>
     </style>
 
 </resources>

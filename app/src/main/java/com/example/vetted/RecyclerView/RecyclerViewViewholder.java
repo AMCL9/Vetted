@@ -29,6 +29,8 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
     public RecyclerViewViewholder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.names);
+        price = itemView.findViewById(R.id.price);
+        address =itemView.findViewById(R.id.address);
         fragmentinterface = (Fragmentinterface) itemView.getContext();
     }
 
@@ -36,10 +38,21 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
     public void onBind(final Businesses business ) {
         Log.d("Data", "onBind: " + business.getName());
         name.setText(business.getName());
+        price.setText(business.getPrice());
+        address.setText(new StringBuilder()
+                .append(business.getLocation().getAddress1())
+                .append(business.getLocation().getAddress2())
+                .append(business.getLocation().getCity())
+                .append(business.getLocation().getCity())
+                .append(business.getLocation().getState())
+                .append(business.getLocation().getZip_code()).toString());
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String passId = business.getId();
+                fragmentinterface.passID(passId);
+                fragmentinterface.passBusiDetails();
                 fragmentinterface.showDetailsFragment();
             }
         });
@@ -47,33 +60,11 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
 
     }
 
-    public String getName(List<Businesses> termResults) {
-        String name ="";
-        for (Businesses b : termResults) {
-            name =b.getName();
 
 
-        } return name; }
 
 
-    public String getLocation(List<Businesses> termResults) {
-      return termResults.toString();
-    }
 
-    public String getPrice (List <Businesses> termResults) {
-    String price = "";
-    for (Businesses b : termResults) {
-        price = b.getPrice();
-    } return price;
-
-    }
-
-    public Double getRating (List <Businesses> termResults) {
-        Double rating = 0.0;
-        for (Businesses b :termResults) {
-            rating = b.getRating();
-        } return rating;
-    }
 
 
 }
