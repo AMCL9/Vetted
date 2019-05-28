@@ -198,5 +198,9 @@ public class MainFragment extends Fragment {
         return passedTerm;
     }
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        userChoice = null;
+    }
 }

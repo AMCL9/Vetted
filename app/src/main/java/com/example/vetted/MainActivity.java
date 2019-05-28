@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.vetted.AutoComplete.AutoComplete;
 import com.example.vetted.BusinessDetailsModels.BusinessDetailWrapper;
+import com.example.vetted.BusinessDetailsModels.Hours;
 import com.example.vetted.BusinessReviews.ReviewWrapper;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.SharedPreferences.BusinessIdSharedPreferences;
@@ -106,8 +107,9 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                 Log.d(TAG, "Business Search onResponse: " + response.body().getBusinesses().get(0));
                 BusinessSearch businessSearch = response.body();
 
-                Log.d(TAG, "lat "+latitude);
-                Log.d(TAG, "lon "+ longitude);
+                Log.d(TAG, "lat "+userLat);
+                Log.d(TAG, "lon "+ userLon);
+                Log.d(TAG, "onResponse: "+userInput);
 
 
                 if (businessSearch != null) {
@@ -144,8 +146,21 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
                         BusinessDetailWrapper businessDetailWrapper = response.body();
                         if (businessDetailWrapper != null) {
                             Log.d(TAG, "onResponse: "+businessDetailWrapper.getReview_count());
+                           String image = businessDetailWrapper.getImage_url();
+                           String [] otherImages = businessDetailWrapper.getPhotos();
+                           String name = businessDetailWrapper.getName();
+                           String alias = businessDetailWrapper.getAlias();
+                           String phoneNumber = businessDetailWrapper.getPhone();
+                           String rating = businessDetailWrapper.getRating();
+                           Hours[] hours =businessDetailWrapper.getHours();
+                           Boolean open = hours[0].getIs_open_now();
+                           String price = businessDetailWrapper.getPrice();
+                           String url = businessDetailWrapper.getUrl();
 
-//
+                            showDetailsFragment(image,otherImages,name,alias,phoneNumber,
+                                    rating, open, price, url);
+
+
                         }
                     }
 
@@ -222,9 +237,13 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
     @Override
-    public void showDetailsFragment() {
+    public void showDetailsFragment(String image, String [] otherImages, String name,
+                                    String alias, String phoneNumber, String rating,
+                                    Boolean open, String price, String url) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, DetailsFragment.newInstance())
+                .replace(R.id.fragment_container, DetailsFragment.newInstance(image, otherImages,name,
+                                                                            alias, phoneNumber, rating,
+                                                                            open, price, url))
                 .addToBackStack(null)
                 .commit();
 

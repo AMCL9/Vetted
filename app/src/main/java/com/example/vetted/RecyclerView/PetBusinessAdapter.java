@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class PetBusinessAdapter extends RecyclerView.Adapter<RecyclerViewViewholder> {
+public class PetBusinessAdapter extends RecyclerView.Adapter<PetBusinessViewholder> {
     private List<Businesses> businesses;
 
 
@@ -29,14 +28,14 @@ public class PetBusinessAdapter extends RecyclerView.Adapter<RecyclerViewViewhol
 
     @NonNull
     @Override
-    public RecyclerViewViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public PetBusinessViewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.business_itemview, viewGroup, false);
-        return new RecyclerViewViewholder(view);
+        return new PetBusinessViewholder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewViewholder recyclerViewViewholder, int i) {
+    public void onBindViewHolder(@NonNull PetBusinessViewholder recyclerViewViewholder, int i) {
         recyclerViewViewholder.onBind(businesses.get(i));
     }
 

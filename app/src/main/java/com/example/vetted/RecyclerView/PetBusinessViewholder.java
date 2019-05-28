@@ -1,5 +1,6 @@
 package com.example.vetted.RecyclerView;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,12 +11,10 @@ import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.modells.Businesses;
 
-import java.util.List;
 
+public class PetBusinessViewholder extends RecyclerView.ViewHolder {
 
-public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
-
-    private TextView name, price, rating, address;
+    private TextView name, reviewcount, rating, address;
 
     String businessName;
     String businessNumber;
@@ -26,10 +25,10 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
 
     private Fragmentinterface listener;
 
-    public RecyclerViewViewholder(@NonNull View itemView) {
+    public PetBusinessViewholder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.names);
-        price = itemView.findViewById(R.id.price);
+        reviewcount = itemView.findViewById(R.id.review_count);
         address =itemView.findViewById(R.id.address);
         fragmentinterface = (Fragmentinterface) itemView.getContext();
     }
@@ -38,7 +37,9 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
     public void onBind(final Businesses business ) {
         Log.d("Data", "onBind: " + business.getName());
         name.setText(business.getName());
-        price.setText(business.getPrice());
+        reviewcount.setText(new StringBuilder()
+                .append("Reviews:")
+                .append(business.getReview_count()).toString());
         address.setText(new StringBuilder()
                 .append(business.getLocation().getAddress1())
                 .append(business.getLocation().getAddress2())
@@ -53,7 +54,7 @@ public class RecyclerViewViewholder extends RecyclerView.ViewHolder {
                 String passId = business.getId();
                 fragmentinterface.passID(passId);
                 fragmentinterface.passBusiDetails();
-                fragmentinterface.showDetailsFragment();
+
             }
         });
 

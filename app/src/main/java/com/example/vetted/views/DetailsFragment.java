@@ -19,7 +19,9 @@ public class DetailsFragment extends Fragment {
 
 
 
-    public static DetailsFragment newInstance() {
+    public static DetailsFragment newInstance(String image, String [] otherImages, String name,
+                                              String alias, String phoneNumber, String rating,
+                                              Boolean open, String price, String url) {
         DetailsFragment fragment = new DetailsFragment();
 
         return fragment;
