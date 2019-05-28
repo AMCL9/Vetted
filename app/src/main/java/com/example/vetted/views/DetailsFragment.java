@@ -62,6 +62,7 @@ public class DetailsFragment extends Fragment {
         args.putBoolean(OPEN, open);
         args.putString(PRICE, price);
         args.putString(URL, url);
+        fragment.setArguments(args);
 
         return fragment;
     }
@@ -104,12 +105,12 @@ public class DetailsFragment extends Fragment {
         urlView = view.findViewById(R.id.url);
         businessNameView.setText(businessName);
         aliasView.setText(businessAlias);
-        numberView.setText(businessPhoneNumber);
-        ratingView.setText(businessRating);
-        priceView.setText(businessPrice);
-        urlView.setText(businessURL);
+        numberView.setText(new StringBuilder().append("Phone Number: ").append(businessPhoneNumber).toString());
+        ratingView.setText(new StringBuilder().append("User Rating: ").append(businessRating).toString());
+        priceView.setText(new StringBuilder().append("Price Range: ").append(businessPrice).toString());
+        urlView.setText(new StringBuilder().append("Provider Site: ").append(businessURL).toString());
         if (isBusinessOpen) {
-            openView.findViewById(R.id.open);
+            openView= view.findViewById(R.id.open);
 
         }
     }

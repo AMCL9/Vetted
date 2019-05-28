@@ -100,7 +100,6 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final Spinner servicesSpinner = view.findViewById(R.id.service_spinner);
-        final Switch switchtoggle = view.findViewById(R.id.switch1);
         imageView = view.findViewById(R.id.animal_main_view);
         mapFragmentButton = view.findViewById(R.id.go);
         mapFragmentButton.setOnClickListener(new View.OnClickListener() {
