@@ -40,6 +40,7 @@ public class PetBusinessViewholder extends RecyclerView.ViewHolder {
         reviewcount.setText(new StringBuilder()
                 .append("Reviews:")
                 .append(business.getReview_count()).toString());
+
         address.setText(new StringBuilder()
                 .append(business.getLocation().getAddress1())
                 .append(business.getLocation().getAddress2())

@@ -1,5 +1,6 @@
 package com.example.vetted.FragmentController;
 
+import com.example.vetted.BusinessReviews.Reviews;
 import com.example.vetted.modells.Businesses;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ public interface Fragmentinterface {
   void showMapFragment (ArrayList<Businesses> list);
   void showDetailsFragment (String image, String [] otherImages, String name,
                             String alias, String phoneNumber, String rating,
-                            Boolean open, String price, String url);
+                            Boolean open, String price, String url, ArrayList<Reviews> reviewsArrayList);
   void passBusinessSearch ();
   void passBusiDetails ();
   String passID (String id);

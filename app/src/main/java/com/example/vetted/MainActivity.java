@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
 
 
                 }showDetailsFragment(image, otherImages, name, alias, phoneNumber,
-                        rating, open, price, url);
+                        rating, open, price, url, specificBusinessReviews);
             }
 
             @Override
@@ -260,11 +260,11 @@ public class MainActivity extends AppCompatActivity implements Fragmentinterface
     @Override
     public void showDetailsFragment(String image, String[] otherImages, String name,
                                     String alias, String phoneNumber, String rating,
-                                    Boolean open, String price, String url) {
+                                    Boolean open, String price, String url, ArrayList<Reviews>businessReviews) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, DetailsFragment.newInstance(image, otherImages, name,
                                                                              alias, phoneNumber, rating,
-                                                                             open, price, url))
+                                                                             open, price, url, businessReviews))
                 .addToBackStack(null)
                 .commit();
 

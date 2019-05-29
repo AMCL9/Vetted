@@ -1,6 +1,9 @@
 package com.example.vetted.BusinessReviews;
 
-public class Reviews {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Reviews implements Parcelable {
     private String rating;
 
     private String time_created;
@@ -12,6 +15,26 @@ public class Reviews {
     private User user;
 
     private String url;
+
+    protected Reviews(Parcel in) {
+        rating = in.readString();
+        time_created = in.readString();
+        id = in.readString();
+        text = in.readString();
+        url = in.readString();
+    }
+
+    public static final Creator<Reviews> CREATOR = new Creator<Reviews>() {
+        @Override
+        public Reviews createFromParcel(Parcel in) {
+            return new Reviews(in);
+        }
+
+        @Override
+        public Reviews[] newArray(int size) {
+            return new Reviews[size];
+        }
+    };
 
     public String getRating ()
     {
@@ -77,5 +100,19 @@ public class Reviews {
     public String toString()
     {
         return "ClassPojo [rating = "+rating+", time_created = "+time_created+", id = "+id+", text = "+text+", user = "+user+", url = "+url+"]";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(rating);
+        dest.writeString(time_created);
+        dest.writeString(id);
+        dest.writeString(text);
+        dest.writeString(url);
     }
 }

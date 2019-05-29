@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.vetted.BusinessReviews.Reviews;
 import com.example.vetted.FragmentController.Fragmentinterface;
 import com.example.vetted.R;
 import com.example.vetted.ReviewRecyclerView.ReviewAdapter;
 import com.example.vetted.modells.Businesses;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -32,6 +34,7 @@ public class DetailsFragment extends Fragment {
     public static final String OPEN = "open";
     public static final String PRICE = "price";
     public static final String URL = "url";
+    public static final String REVIEWS = "reviews";
 
     String businessImage = "";
     //    String[] extraBusinessImages =;
@@ -42,13 +45,14 @@ public class DetailsFragment extends Fragment {
     boolean isBusinessOpen = false;
     String businessPrice = "";
     String businessURL = "";
+    private ArrayList<Reviews> reviews = new ArrayList<>();
+
 
     private TextView businessNameView, aliasView, numberView,
             urlView, ratingView, openView, priceView;
     private ImageView businessImageView;
 
     private RecyclerView reviewRecyclerView;
-    private ArrayList <Businesses> reviews = new ArrayList<>();
     private ReviewAdapter reviewAdapter;
     private RecyclerView.LayoutManager layoutManager;
     Fragmentinterface fragmentinterface;
@@ -60,7 +64,7 @@ public class DetailsFragment extends Fragment {
 
     public static DetailsFragment newInstance(String image, String[] otherImages, String name,
                                               String alias, String phoneNumber, String rating,
-                                              Boolean open, String price, String url) {
+                                              Boolean open, String price, String url, ArrayList<Reviews> businessReviews) {
         DetailsFragment fragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putString(IMAGE, image);
@@ -72,6 +76,7 @@ public class DetailsFragment extends Fragment {
         args.putBoolean(OPEN, open);
         args.putString(PRICE, price);
         args.putString(URL, url);
+        args.putParcelableArrayList(REVIEWS, businessReviews);
         fragment.setArguments(args);
 
         return fragment;
@@ -90,6 +95,7 @@ public class DetailsFragment extends Fragment {
             isBusinessOpen = getArguments().getBoolean(OPEN);
             businessPrice = getArguments().getString(PRICE);
             businessURL = getArguments().getString(URL);
+            reviews = getArguments().getParcelableArrayList(REVIEWS);
 
             Log.d("ouchiee", "onCreate: " + businessName);
 
@@ -120,15 +126,16 @@ public class DetailsFragment extends Fragment {
         priceView.setText(new StringBuilder().append("Price Range: ").append(businessPrice).toString());
         urlView.setText(new StringBuilder().append("Provider Site: ").append(businessURL).toString());
         if (isBusinessOpen) {
-            openView= view.findViewById(R.id.open);
+            openView = view.findViewById(R.id.open);
 
         }
 
         reviewRecyclerView = view.findViewById(R.id.review_recyclerView);
         layoutManager = new GridLayoutManager(getContext(), 1);
         reviewRecyclerView.setLayoutManager(layoutManager);
-//        reviewAdapter = new ReviewAdapter(reviews);
-//        reviewRecyclerView.setAdapter(reviewAdapter);
+        reviewAdapter = new ReviewAdapter(reviews);
+        reviewAdapter.setReviews(reviews);
+        reviewRecyclerView.setAdapter(reviewAdapter);
 
     }
 }
